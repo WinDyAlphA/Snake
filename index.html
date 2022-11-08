@@ -11,35 +11,41 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="page">
-        <div><Label>Choisi ton mode de jeu </Label>
-            <select>
-                <option value="classic">Classic</option>
-                <option value="mur">Mur</option>
-                <option value="infini">Infini</option>
-            </select>
+    <div>
+        <div id="parametre">
+            <div><Label>Choisi ton mode de jeu </Label>
+                <select>
+                    <option value="classic">Classic</option>
+                    <option value="mur">Mur</option>
+                    <option value="infini">Infini</option>
+                </select>
+            </div>
+            <div>
+                <Label>Choisi ta couleur de snake</Label>
+                <input type="color">
+            </div>
+            <div>
+                <Label>Choisi la vitesse</Label>
+                <!--<select>
+                    <option value="classic">Lent</option>
+                    <option value="mur">Normal</option>
+                    <option value="infini">Rapide</option>
+                </select>-->
+                <input type="range" min="0" max="10" step="1">
+            </div>
+            <div>
+                <Label>Choisi ton mode de jeu </Label>
+                <select>
+                    <option value="classic">Classic</option>
+                    <option value="mur">Mur</option>
+                    <option value="infini">Infini</option>
+                </select>
+            </div>
         </div>
-        <div>
-            <Label>Choisi ta couleur de snake</Label>
-            <input type="color">
-        </div>
-        <div>
-            <Label>Choisi la vitesse</Label>
-            <!--<select>
-                <option value="classic">Lent</option>
-                <option value="mur">Normal</option>
-                <option value="infini">Rapide</option>
-            </select>-->
-            <input type="range" min="0" max="10" step="1">
-        </div>
-        <div>
-            <Label>Choisi ton mode de jeu </Label>
-            <select>
-                <option value="classic">Classic</option>
-                <option value="mur">Mur</option>
-                <option value="infini">Infini</option>
-            </select>
+        <div id="play">
+        PLAY
         </div>
     </div>
+    
 </body>
 </html>

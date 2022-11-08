@@ -12,13 +12,27 @@ body {
 		no-repeat;
 	height: 98vh;
 }
-#page{
+body div{
+	display:flex;
+	flex-direction: column;
+}
+#parametre{
 	display:block;
 	border: 10px solid #f3f3f3;
 
 }
-#page div{
+#parametre div{
 	margin:15px;
+}
+#play{
+	margin: 20px;
+	border: 5px solid #ffab33;
+	width: 200px;
+	text-align: center;
+	padding: 10px;
+	font-size: 30px;
+	cursor: pointer;
+	background: #ff5733;
 }
 select{
 	width: 150px;
