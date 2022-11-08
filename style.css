@@ -1,0 +1,50 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgb(2, 0, 36) no-repeat;
+	background: linear-gradient(
+			0deg,
+			rgba(2, 0, 36, 1) 0%,
+			rgba(26, 121, 9, 1) 42%,
+			rgba(0, 245, 255, 1) 100%
+		)
+		no-repeat;
+	height: 98vh;
+}
+canvas {
+	margin-bottom: 20px;
+}
+#screenGame {
+	width: 60%;
+	height: 75%;
+	border: 10px solid #f3f3f3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#button {
+	border: 5px solid #ffab33;
+	width: 200px;
+	text-align: center;
+	padding: 10px;
+	font-size: 30px;
+	cursor: pointer;
+	margin: auto;
+	background: #ff5733;
+}
+
+#button:hover {
+	background: #dff30b;
+}
+#pauseBtn {
+	border: 5px solid #ffab33;
+	width: 200px;
+	text-align: center;
+	padding: 10px;
+	font-size: 30px;
+	cursor: pointer;
+	margin: auto;
+	background: #ff5733;
+	display: none;
+}
