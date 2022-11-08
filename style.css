@@ -14,10 +14,15 @@ body {
 }
 canvas {
 	margin-bottom: 20px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 #screenGame {
-	width: 60%;
-	height: 75%;
+	width: 600px;
+	height: 600px;
 	border: 10px solid #f3f3f3;
 	display: flex;
 	justify-content: center;
