@@ -12,6 +12,18 @@ body {
 		no-repeat;
 	height: 98vh;
 }
+#page{
+	display:block;
+	border: 10px solid #f3f3f3;
+
+}
+#page div{
+	margin:15px;
+}
+select{
+	width: 150px;
+	height: 20px;
+}
 canvas {
 	margin-bottom: 20px;
 	width: 100%;
