@@ -3,14 +3,14 @@ var page = document.querySelector("#page");
 window.onload = function () {
 	var nbPomme = document.querySelector("#nbPomme");
 	var vitesse = document.querySelector("#vitesse");
-
+	var color = document.querySelector("#color");
 	let compteur = 0;
 	document.querySelector("#play").addEventListener("click", (e) => {
-		play(nbPomme.value, vitesse.value);
+		play(nbPomme.value, vitesse.value, color.value);
 	});
 };
 
-const play = (nbFruits, timingstamp) => {
+const play = (nbFruits, timingstamp, color) => {
 	console.log(nbFruits, timingstamp);
 	timingstamp = 10 - timingstamp;
 	page.innerHTML =
@@ -130,7 +130,7 @@ const play = (nbFruits, timingstamp) => {
 			context.fillRect(tabFood[i].x, tabFood[i].y, grid - 1, grid - 1);
 		}
 		// Dessine le serpent
-		context.fillStyle = "#E43F5A";
+		context.fillStyle = color;
 		snake.cells.forEach(function (cell, index) {
 			// dessine le serpent avec un padding de 1px
 			context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
