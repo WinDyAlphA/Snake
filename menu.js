@@ -1,12 +1,18 @@
 var page = document.querySelector("#page");
+
 window.onload = function () {
 	var nbPomme = document.querySelector("#nbPomme");
+	var vitesse = document.querySelector("#vitesse");
+
+	let compteur = 0;
 	document.querySelector("#play").addEventListener("click", (e) => {
-		play(nbPomme.value);
+		play(nbPomme.value, vitesse.value);
 	});
 };
 
-const play = (nbFruits) => {
+const play = (nbFruits, timingstamp) => {
+	console.log(nbFruits, timingstamp);
+	timingstamp = 10 - timingstamp;
 	page.innerHTML =
 		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><button id="pause">pause</button>';
 	var canvas = document.getElementById("zone");
@@ -58,7 +64,7 @@ const play = (nbFruits) => {
 	function loading() {
 		var ctx = document.getElementById("zone").getContext("2d");
 	}
-	var timestamp = 4;
+	var timestamp = timingstamp;
 	//boucle infinie
 	function loop() {
 		requestAnimationFrame(loop);
@@ -202,7 +208,7 @@ const play = (nbFruits) => {
 		} else {
 			paused = false;
 			pauseBtn.innerHTML = "Pause";
-			timestamp = 4;
+			timestamp = timingstamp;
 		}
 	});
 
