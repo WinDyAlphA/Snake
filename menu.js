@@ -7,7 +7,7 @@ window.onload = function () {
 
 const play = () => {
 	page.innerHTML =
-		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas>';
+		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><button id="pause">pause</button>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 
@@ -175,32 +175,21 @@ const play = () => {
 	addEvent();
 	// start the game
 
-	// let button = document.querySelector("#button");
 	// let loader = document.querySelector("#loader");
-	// let pauseBtn = document.querySelector("#pauseBtn");
+	let pauseBtn = document.querySelector("#pause");
 
-	// button.addEventListener("click", () => {
-	// 	if (!laucnhed) {
-	// 		requestAnimationFrame(loop);
-	// 		laucnhed = true;
-	// 		button.style.display = "none";
-	// 		pauseBtn.style.display = "block";
-	// 	} else {
-	// 		laucnhed = false;
-	// 	}
-	// });
-	// var paused = false;
-	// pauseBtn.addEventListener("click", () => {
-	// 	if (!paused) {
-	// 		paused = true;
-	// 		pauseBtn.innerHTML = "Play";
-	// 		timestamp = 10000;
-	// 	} else {
-	// 		paused = false;
-	// 		pauseBtn.innerHTML = "Pause";
-	// 		timestamp = 4;
-	// 	}
-	// });
+	var paused = false;
+	pauseBtn.addEventListener("click", () => {
+		if (!paused) {
+			paused = true;
+			pauseBtn.innerHTML = "Play";
+			timestamp = 10000;
+		} else {
+			paused = false;
+			pauseBtn.innerHTML = "Pause";
+			timestamp = 4;
+		}
+	});
 
 	requestAnimationFrame(loop);
 };
