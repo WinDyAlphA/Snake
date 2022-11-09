@@ -7,7 +7,7 @@ window.onload = function () {
 
 const play = () => {
 	page.innerHTML =
-		'<canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas>';
+		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 
@@ -95,7 +95,8 @@ const play = () => {
 				score = 0;
 				food.x = getRandomInt(0, 25) * grid;
 				food.y = getRandomInt(0, 25) * grid;
-				document.getElementById("high").innerHTML = "&nbsp;" + max;
+
+				document.getElementById("highNum").innerHTML = "&nbsp;" + max;
 			}
 		}
 
@@ -117,7 +118,7 @@ const play = () => {
 			if (cell.x === food.x && cell.y === food.y) {
 				snake.maxCells++;
 				score += 1;
-				document.getElementById("score").innerHTML = "&nbsp;" + score;
+				document.getElementById("scoreNum").innerHTML = "&nbsp;" + score;
 				// 400x400 / 16 = 25 cases
 				food.x = getRandomInt(0, 25) * grid;
 				food.y = getRandomInt(0, 25) * grid;
@@ -138,7 +139,8 @@ const play = () => {
 					score = 0;
 					food.x = getRandomInt(0, 25) * grid;
 					food.y = getRandomInt(0, 25) * grid;
-					document.getElementById("high").innerHTML = "&nbsp;" + max;
+					document.getElementById("highNum").innerHTML = "&nbsp;" + max;
+					document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
 				}
 			}
 		});
