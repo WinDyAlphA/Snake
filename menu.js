@@ -1,11 +1,12 @@
 var page = document.querySelector("#page");
 window.onload = function () {
+	var nbPomme = document.querySelector("#nbPomme");
 	document.querySelector("#play").addEventListener("click", (e) => {
-		play();
+		play(nbPomme.value);
 	});
 };
 
-const play = () => {
+const play = (nbFruits) => {
 	page.innerHTML =
 		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><button id="pause">pause</button>';
 	var canvas = document.getElementById("zone");
@@ -30,15 +31,29 @@ const play = () => {
 		//taille du serpent.
 		maxCells: 4,
 	};
-	var food = {
-		x: 320,
-		y: 320,
-	};
+	var tabFood = [];
+
+	function createFood() {
+		for (let i = 0; i < nbFruits; i++) {
+			tabFood[i] = {
+				x: getRandomInt(0, 25) * grid,
+				y: getRandomInt(0, 25) * grid,
+			};
+		}
+	}
+	createFood();
 
 	function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
-
+	function snakeOver(snake) {
+		snake.x = 160;
+		snake.y = 160;
+		snake.cells = [];
+		snake.maxCells = 4;
+		snake.dx = grid;
+		snake.dy = 0;
+	}
 	//fais une animation de chargement avec ctx
 	function loading() {
 		var ctx = document.getElementById("zone").getContext("2d");
@@ -86,15 +101,12 @@ const play = () => {
 				snake.x >= 384 ||
 				snake.y >= canvas.height
 			) {
-				snake.x = 160;
-				snake.y = 160;
-				snake.cells = [];
-				snake.maxCells = 4;
-				snake.dx = grid;
-				snake.dy = 0;
+				snakeOver(snake);
 				score = 0;
-				food.x = getRandomInt(0, 25) * grid;
-				food.y = getRandomInt(0, 25) * grid;
+				for (var i = 0; i < tabFood.length; i++) {
+					tabFood[i].x = getRandomInt(0, 25) * grid;
+					tabFood[i].y = getRandomInt(0, 25) * grid;
+				}
 
 				document.getElementById("highNum").innerHTML = "&nbsp;" + max;
 			}
@@ -108,21 +120,26 @@ const play = () => {
 		}
 		// Dessine la nourriture
 		context.fillStyle = "white";
-		context.fillRect(food.x, food.y, grid - 1, grid - 1);
+		for (var i = 0; i < tabFood.length; i++) {
+			context.fillRect(tabFood[i].x, tabFood[i].y, grid - 1, grid - 1);
+		}
 		// Dessine le serpent
 		context.fillStyle = "#E43F5A";
 		snake.cells.forEach(function (cell, index) {
 			// dessine le serpent avec un padding de 1px
 			context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
 			// le serpent mange la nourriture
-			if (cell.x === food.x && cell.y === food.y) {
-				snake.maxCells++;
-				score += 1;
-				document.getElementById("scoreNum").innerHTML = "&nbsp;" + score;
-				// 400x400 / 16 = 25 cases
-				food.x = getRandomInt(0, 25) * grid;
-				food.y = getRandomInt(0, 25) * grid;
+			for (var i = 0; i < tabFood.length; i++) {
+				if (cell.x === tabFood[i].x && cell.y === tabFood[i].y) {
+					snake.maxCells++;
+					score += 1;
+					document.getElementById("scoreNum").innerHTML = "&nbsp;" + score;
+					// 400x400 / 16 = 25 cases
+					tabFood[i].x = getRandomInt(0, 25) * grid;
+					tabFood[i].y = getRandomInt(0, 25) * grid;
+				}
 			}
+
 			// verifier collision avec le serpent
 			for (var i = index + 1; i < snake.cells.length; i++) {
 				// si la tete du serpent est sur une autre cellule du serpent, le jeu est perdu
@@ -130,15 +147,13 @@ const play = () => {
 					if (score > max) {
 						max = score;
 					}
-					snake.x = 160;
-					snake.y = 160;
-					snake.cells = [];
-					snake.maxCells = 4;
-					snake.dx = grid;
-					snake.dy = 0;
+					snakeOver(snake);
 					score = 0;
-					food.x = getRandomInt(0, 25) * grid;
-					food.y = getRandomInt(0, 25) * grid;
+					for (var i = 0; i < tabFood.length; i++) {
+						tabFood[i].x = getRandomInt(0, 25) * grid;
+						tabFood[i].y = getRandomInt(0, 25) * grid;
+					}
+
 					document.getElementById("highNum").innerHTML = "&nbsp;" + max;
 					document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
 				}
