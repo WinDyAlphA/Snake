@@ -109,23 +109,27 @@ const play = (nbFruits, timingstamp, color, boolMur) => {
 		}
 		// Dessine le serpent
 		context.fillStyle = color;
+		function moveSnakeLeft() {
+			snake.dx = -grid;
+			snake.dy = 0;
+			console.log("LEFT");
+		}
+		function moveSnakeRight() {
+			snake.dx = grid;
+			snake.dy = 0;
+			console.log("RIGHT");
+		}
+		function moveSnakeUp() {
+			snake.dy = -grid;
+			snake.dx = 0;
+			console.log("UP");
+		}
+		function moveSnakeDown() {
+			snake.dy = grid;
+			snake.dx = 0;
+			console.log("DOWN");
+		}
 		snake.cells.forEach(function (cell, index) {
-			function moveSnakeLeft() {
-				snake.dx = -grid;
-				snake.dy = 0;
-			}
-			function moveSnakeRight() {
-				snake.dx = grid;
-				snake.dy = 0;
-			}
-			function moveSnakeUp() {
-				snake.dy = -grid;
-				snake.dx = 0;
-			}
-			function moveSnakeDown() {
-				snake.dy = grid;
-				snake.dx = 0;
-			}
 			//creation d'une inteligence artificielle qui joue asnake et veut recuperer le plus de nourriture possible
 
 			function ia() {
@@ -151,6 +155,49 @@ const play = (nbFruits, timingstamp, color, boolMur) => {
 				for (let i = 0; i < snake.cells.length; i++) {
 					tabSnake[i] = snake.cells[i].x + snake.cells[i].y;
 				}
+				//le serpent ne peut aller dans la directrion opposé
+				if (snake.dx == -grid) {
+					if (foodX > nextX) {
+						moveSnakeRight();
+					} else if (foodX < nextX) {
+						moveSnakeLeft();
+					} else if (foodY > nextY) {
+						moveSnakeDown();
+					} else if (foodY < nextY) {
+						moveSnakeUp();
+					}
+				} else if (snake.dx == grid) {
+					if (foodX > nextX) {
+						moveSnakeRight();
+					} else if (foodX < nextX) {
+						moveSnakeLeft();
+					} else if (foodY > nextY) {
+						moveSnakeDown();
+					} else if (foodY < nextY) {
+						moveSnakeUp();
+					}
+				} else if (snake.dy == -grid) {
+					if (foodX > nextX) {
+						moveSnakeRight();
+					} else if (foodX < nextX) {
+						moveSnakeLeft();
+					} else if (foodY > nextY) {
+						moveSnakeDown();
+					} else if (foodY < nextY) {
+						moveSnakeUp();
+					}
+				} else if (snake.dy == grid) {
+					if (foodX > nextX) {
+						moveSnakeRight();
+					} else if (foodX < nextX) {
+						moveSnakeLeft();
+					} else if (foodY > nextY) {
+						moveSnakeDown();
+					} else if (foodY < nextY) {
+						moveSnakeUp();
+					}
+				}
+
 				//si la prochaine case est occupé par le serpent, on change de direction
 				if (tabSnake.includes(nextX + nextY)) {
 					if (snake.dx == 0) {
@@ -178,6 +225,21 @@ const play = (nbFruits, timingstamp, color, boolMur) => {
 						moveSnakeDown();
 					}
 				}
+				//si la noutriture est sur la meme ligne que le serpent, on va vers la nourriture
+				if (snake.x == foodX) {
+					if (snake.y > foodY) {
+						moveSnakeUp();
+					} else {
+						moveSnakeDown();
+					}
+				} else if (snake.y == foodY) {
+					if (snake.x > foodX) {
+						moveSnakeLeft();
+					} else {
+						moveSnakeRight();
+					}
+				}
+
 				//le serpent ne dois pas se manger la queue, si il va dans la direction de la queue, il tourne a droite
 
 				//il va a la nouriture la plus proche
