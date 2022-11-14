@@ -5,6 +5,7 @@ window.onload = function () {
 	var vitesse = document.querySelector("#vitesse");
 	var color = document.querySelector("#color");
 	var mur = document.querySelector("#mur");
+	var ia = document.querySelector("#ia");
 	var boolMur = false;
 
 	let compteur = 0;
@@ -14,12 +15,17 @@ window.onload = function () {
 		} else {
 			boolMur = false;
 		}
-		play(nbPomme.value, vitesse.value, color.value, boolMur);
+		if (ia.checked) {
+			ia = true;
+		} else {
+			ia = false;
+		}
+		play(nbPomme.value, vitesse.value, color.value, boolMur, ia);
 	});
 };
 
-const play = (nbFruits, timingstamp, color, boolMur) => {
-	console.log(nbFruits, timingstamp, boolMur);
+const play = (nbFruits, timingstamp, color, boolMur, ia) => {
+	console.log(nbFruits, timingstamp, boolMur, ia);
 	timingstamp = 10 - timingstamp;
 	page.innerHTML =
 		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><button id="pause">pause</button>';
@@ -132,7 +138,7 @@ const play = (nbFruits, timingstamp, color, boolMur) => {
 		snake.cells.forEach(function (cell, index) {
 			//creation d'une inteligence artificielle qui joue asnake et veut recuperer le plus de nourriture possible
 
-			function ia() {
+			function snakeIa() {
 				//calculer la nourriture la plus proche
 				var foodX = tabFood[0].x;
 				var foodY = tabFood[0].y;
@@ -257,7 +263,10 @@ const play = (nbFruits, timingstamp, color, boolMur) => {
 				// 	console.log("u");
 				// }
 			}
-			ia();
+			if (ia == true) {
+				snakeIa();
+			}
+
 			// dessine le serpent avec un padding de 1px
 			context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
 			// le serpent mange la nourriture
