@@ -28,7 +28,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 	console.log(nbFruits, timingstamp, boolMur, ia);
 	timingstamp = 10 - timingstamp;
 	page.innerHTML =
-		'<div id="affichage"><div id="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 
@@ -69,12 +69,19 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 	}
 	function snakeOver(snake) {
 		//remise à zéro du serpent
+		
 		snake.x = 160;
 		snake.y = 160;
 		snake.cells = [];
 		snake.maxCells = 4;
 		snake.dx = grid;
 		snake.dy = 0;
+		let high = document.querySelector("#high");
+		let score = document.querySelector("#score");
+		high.classList.add('high');
+		score.classList.add('score');
+		high.classList.remove('off');
+		score.classList.remove('meilleur');
 	}
 	//fais une animation de chargement avec ctx
 	function loading() {
@@ -118,22 +125,22 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 		function moveSnakeLeft() {
 			snake.dx = -grid;
 			snake.dy = 0;
-			console.log("LEFT");
+			//console.log("LEFT");
 		}
 		function moveSnakeRight() {
 			snake.dx = grid;
 			snake.dy = 0;
-			console.log("RIGHT");
+			//console.log("RIGHT");
 		}
 		function moveSnakeUp() {
 			snake.dy = -grid;
 			snake.dx = 0;
-			console.log("UP");
+			//console.log("UP");
 		}
 		function moveSnakeDown() {
 			snake.dy = grid;
 			snake.dx = 0;
-			console.log("DOWN");
+			//console.log("DOWN");
 		}
 		snake.cells.forEach(function (cell, index) {
 			//creation d'une inteligence artificielle qui joue asnake et veut recuperer le plus de nourriture possible
@@ -334,15 +341,19 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 				}
 			}
 		});
-		if (document.querySelector("#highNum") != null){
-			console.log("test");
-		let highvalue = document.querySelector("#highNum").innerHTML;
-		let scorevalue = document.querySelector("#scoreNum").innerHTML;
-		if(scorevalue>highvalue){
-		let affichage = document.querySelector("#affichage");
-		console.log(affichage);
-		affichage.innerHTML = '<div id="score">Score :&nbsp<span id="scoreNum">'+scorevalue+'</span></div>';
-		}}
+		//si le score dépasse le highscore alors le  highscore disparait
+		if (document.querySelector("#high").className != 'off'){
+			let highvalue = document.querySelector("#highNum");
+			let scorevalue = document.querySelector("#scoreNum");
+			if(parseInt(scorevalue.innerHTML,10)>parseInt(highvalue.innerHTML,10)){
+				let high = document.querySelector("#high");
+				let score = document.querySelector("#score");
+				high.classList.remove('high');
+				score.classList.remove('score');
+				high.classList.add('off');
+				score.classList.add('meilleur');
+				
+			}}
 	}
 
 	function addEvent() {
@@ -392,7 +403,6 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 
 	let returnBTN = document.querySelector("#return");
 	returnBTN.addEventListener("click",()=>{
-		console.log(window.location);
 		window.location = window.location;
 
 	});

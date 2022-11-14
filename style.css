@@ -76,10 +76,26 @@ canvas {
 	display: flex;
 	flex-direction: row;
 }
-#score,#high{
+.score,.high{
 
 	background-color: #ff5733;
 	border: 5px solid #ffab33;
+	padding: 10px;
+	margin:5px;
+	-webkit-box-shadow: 5px 5px 15px 5px #AFAFAF; 
+	box-shadow: 5px 5px 15px 5px #AFAFAF;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
+}
+.off{
+	display:none;
+}
+.meilleur{
+	justify-content: center;
+	font-weight: bold;
+	background-color: #33ff3d;
+	border: 5px solid #1d9423;
 	padding: 10px;
 	margin:5px;
 	-webkit-box-shadow: 5px 5px 15px 5px #AFAFAF; 
