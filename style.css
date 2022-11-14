@@ -11,6 +11,7 @@ body {
 		)
 		no-repeat;
 	height: 98vh;
+	font-family: 'Poppins';
 }
 body div{
 	display:flex;
@@ -24,15 +25,18 @@ body div{
 #parametre div{
 	margin:15px;
 }
-#play{
+#play,#return,#pause{
 	margin: 20px;
 	border: 5px solid #ffab33;
+	border-radius: 10px;
 	width: 200px;
 	text-align: center;
-	padding: 10px;
+	padding: 5px;
 	font-size: 30px;
 	cursor: pointer;
 	background: #ff5733;
+	font-family: 'Poppins';
+
 }
 select{
 	width: 150px;
@@ -68,14 +72,19 @@ canvas {
 #button:hover {
 	background: #dff30b;
 }
-#pauseBtn {
+#BTN-jouer{
+	display: flex;
+	flex-direction: row;
+}
+#score,#high{
+
+	background-color: #ff5733;
 	border: 5px solid #ffab33;
-	width: 200px;
-	text-align: center;
 	padding: 10px;
-	font-size: 30px;
-	cursor: pointer;
-	margin: auto;
-	background: #ff5733;
-	display: none;
+	margin:5px;
+	-webkit-box-shadow: 5px 5px 15px 5px #AFAFAF; 
+	box-shadow: 5px 5px 15px 5px #AFAFAF;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
 }

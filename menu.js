@@ -28,7 +28,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 	console.log(nbFruits, timingstamp, boolMur, ia);
 	timingstamp = 10 - timingstamp;
 	page.innerHTML =
-		'<div id="score">Score: <span id="scoreNum">0</span></div><div id="high">High Score: <span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><button id="pause">pause</button><button id="return">retour</button>';
+		'<div id="score">Score :<span id="scoreNum">0</span></div><div id="high">High Score :<span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 
