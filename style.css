@@ -1,16 +1,9 @@
 body {
+	background: url(https://wallpaperaccess.com/full/1216331.jpg);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: rgb(2, 0, 36) no-repeat;
-	background: linear-gradient(
-			0deg,
-			rgba(2, 0, 36, 1) 0%,
-			rgba(26, 121, 9, 1) 42%,
-			rgba(0, 245, 255, 1) 100%
-		)
-		no-repeat;
-	height: 98vh;
+	height: 97vh;
 	font-family: 'Poppins';
 }
 body div{
