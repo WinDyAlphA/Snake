@@ -6,7 +6,10 @@ window.onload = function () {
 	var color = document.querySelector("#color");
 	var mur = document.querySelector("#mur");
 	var ia = document.querySelector("#ia");
+	var nbCells = document.querySelector("#taille");
 	var boolMur = false;
+	var pixels = 0;
+	var randInt = 0;
 
 	let compteur = 0;
 	document.querySelector("#play").addEventListener("click", (e) => {
@@ -20,19 +23,92 @@ window.onload = function () {
 		} else {
 			ia = false;
 		}
-		play(nbPomme.value, vitesse.value, color.value, boolMur, ia);
+
+		if (nbCells.value == 0) {
+			pixels = 40;
+			randInt = 10;
+		}
+		if (nbCells.value == 1) {
+			pixels = 16;
+			randInt = 25;
+		}
+		if (nbCells.value == 2) {
+			pixels = 8;
+			randInt = 50;
+		}
+		if (nbCells.value == 3) {
+			pixels = 4;
+			console.log("zzz");
+			randInt = 100;
+		}
+		if (nbCells.value == 4) {
+			pixels = 2;
+			console.log("zzz");
+			randInt = 200;
+		}
+
+		console.log("nbCells : " + pixels);
+
+		function Json(nbPomme, vitesse, color, mur, ia, pixels, randInt) {
+			if (
+				localStorage.getItem("param") == null ||
+				localStorage.getItem("param") == undefined
+			) {
+				var param = {
+					nbPomme: nbPomme,
+					vitesse: vitesse,
+					color: color,
+					mur: mur,
+					ia: ia,
+					pixels: pixels,
+					randInt: randInt,
+				};
+				var paramJson = JSON.stringify(param);
+				localStorage.setItem("param", paramJson);
+			}
+			if (
+				localStorage.getItem("param") != null ||
+				localStorage.getItem("param") != undefined
+			) {
+				var param = JSON.parse(localStorage.getItem("param"));
+				nbPomme = param.nbPomme;
+				vitesse = param.vitesse;
+				color = param.color;
+				mur = param.mur;
+				ia = param.ia;
+				pixels = param.pixels;
+				randInt = param.randInt;
+			}
+		}
+
+		play(
+			nbPomme.value,
+			vitesse.value,
+			color.value,
+			boolMur,
+			ia,
+			pixels,
+			randInt
+		);
+
+		//creer une fonction js, si le fihcier param.js existe pas on lecreer avec les parametres, sinon on recupere les parametres
+
+		//si le fichier param.js existe on recupere les parametres
 	});
 };
 
-const play = (nbFruits, timingstamp, color, boolMur, ia) => {
-	console.log(nbFruits, timingstamp, boolMur, ia);
+const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	timingstamp = 10 - timingstamp;
+	console.log(pixels);
 	page.innerHTML =
+<<<<<<< HEAD
 		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas></div><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+=======
+		'<div id="score">Score :<span id="scoreNum">0</span></div><div id="high">High Score :<span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+>>>>>>> c94efff6a2c4045599c9d15a6c6aafb2dec20e17
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
-
-	var grid = 16;
+	var grid = pixels;
 	var count = 0;
 	var score = 0;
 	var max = 0;
@@ -57,8 +133,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 		//création de la nourriture selon nbFruits
 		for (let i = 0; i < nbFruits; i++) {
 			tabFood[i] = {
-				x: getRandomInt(0, 25) * grid,
-				y: getRandomInt(0, 25) * grid,
+				x: getRandomInt(0, randInt) * grid,
+				y: getRandomInt(0, randInt) * grid,
 			};
 		}
 	}
@@ -69,19 +145,21 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 	}
 	function snakeOver(snake) {
 		//remise à zéro du serpent
-		
 		snake.x = 160;
 		snake.y = 160;
 		snake.cells = [];
 		snake.maxCells = 4;
 		snake.dx = grid;
 		snake.dy = 0;
+<<<<<<< HEAD
 		let high = document.querySelector("#high");
 		let score = document.querySelector("#score");
 		high.classList.remove('off');
 		high.classList.add('high');
 		score.classList.remove('meilleur');
 		score.classList.add('score');
+=======
+>>>>>>> c94efff6a2c4045599c9d15a6c6aafb2dec20e17
 	}
 	//fais une animation de chargement avec ctx
 	function loading() {
@@ -106,6 +184,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 		} else if (snake.x >= canvas.width) {
 			snake.x = 0;
 		}
+
 		var border = boolMur;
 		//si le serpent sort de l'écran, il réapparait de l'autre côté vertcialement
 
@@ -125,22 +204,18 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 		function moveSnakeLeft() {
 			snake.dx = -grid;
 			snake.dy = 0;
-			//console.log("LEFT");
 		}
 		function moveSnakeRight() {
 			snake.dx = grid;
 			snake.dy = 0;
-			//console.log("RIGHT");
 		}
 		function moveSnakeUp() {
 			snake.dy = -grid;
 			snake.dx = 0;
-			//console.log("UP");
 		}
 		function moveSnakeDown() {
 			snake.dy = grid;
 			snake.dx = 0;
-			//console.log("DOWN");
 		}
 		snake.cells.forEach(function (cell, index) {
 			//creation d'une inteligence artificielle qui joue asnake et veut recuperer le plus de nourriture possible
@@ -169,45 +244,47 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 					tabSnake[i] = snake.cells[i].x + snake.cells[i].y;
 				}
 				//le serpent ne peut aller dans la directrion opposé
-				if (snake.dx == -grid) {
-					if (foodX > nextX) {
-						moveSnakeRight();
-					} else if (foodX < nextX) {
-						moveSnakeLeft();
-					} else if (foodY > nextY) {
-						moveSnakeDown();
-					} else if (foodY < nextY) {
-						moveSnakeUp();
-					}
-				} else if (snake.dx == grid) {
-					if (foodX > nextX) {
-						moveSnakeRight();
-					} else if (foodX < nextX) {
-						moveSnakeLeft();
-					} else if (foodY > nextY) {
-						moveSnakeDown();
-					} else if (foodY < nextY) {
-						moveSnakeUp();
-					}
-				} else if (snake.dy == -grid) {
-					if (foodX > nextX) {
-						moveSnakeRight();
-					} else if (foodX < nextX) {
-						moveSnakeLeft();
-					} else if (foodY > nextY) {
-						moveSnakeDown();
-					} else if (foodY < nextY) {
-						moveSnakeUp();
-					}
-				} else if (snake.dy == grid) {
-					if (foodX > nextX) {
-						moveSnakeRight();
-					} else if (foodX < nextX) {
-						moveSnakeLeft();
-					} else if (foodY > nextY) {
-						moveSnakeDown();
-					} else if (foodY < nextY) {
-						moveSnakeUp();
+				if (tabSnake.includes(nextX + nextY)) {
+					if (snake.dx == -grid) {
+						if (foodX > nextX) {
+							moveSnakeRight();
+						} else if (foodX < nextX) {
+							moveSnakeLeft();
+						} else if (foodY > nextY) {
+							moveSnakeDown();
+						} else if (foodY < nextY) {
+							moveSnakeUp();
+						}
+					} else if (snake.dx == grid) {
+						if (foodX > nextX) {
+							moveSnakeRight();
+						} else if (foodX < nextX) {
+							moveSnakeLeft();
+						} else if (foodY > nextY) {
+							moveSnakeDown();
+						} else if (foodY < nextY) {
+							moveSnakeUp();
+						}
+					} else if (snake.dy == -grid) {
+						if (foodX > nextX) {
+							moveSnakeRight();
+						} else if (foodX < nextX) {
+							moveSnakeLeft();
+						} else if (foodY > nextY) {
+							moveSnakeDown();
+						} else if (foodY < nextY) {
+							moveSnakeUp();
+						}
+					} else if (snake.dy == grid) {
+						if (foodX > nextX) {
+							moveSnakeRight();
+						} else if (foodX < nextX) {
+							moveSnakeLeft();
+						} else if (foodY > nextY) {
+							moveSnakeDown();
+						} else if (foodY < nextY) {
+							moveSnakeUp();
+						}
 					}
 				}
 
@@ -215,15 +292,19 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 				if (tabSnake.includes(nextX + nextY)) {
 					if (snake.dx == 0) {
 						if (snake.y > foodY) {
+							console.log("UP");
 							moveSnakeUp();
 						} else {
 							moveSnakeDown();
+							console.log("down");
 						}
 					} else {
 						if (snake.x > foodX) {
+							console.log("left");
 							moveSnakeLeft();
 						} else {
 							moveSnakeRight();
+							console.log("right");
 						}
 					}
 				} else {
@@ -258,7 +339,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 				//il va a la nouriture la plus proche
 				// if (snake.x < foodX) {
 				// 	moveSnakeRight();
-				// 	console.log("r");
+
 				// } else if (snake.x > foodX) {
 				// 	moveSnakeLeft();
 				// 	console.log("l");
@@ -281,10 +362,10 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 				if (cell.x === tabFood[i].x && cell.y === tabFood[i].y) {
 					snake.maxCells++;
 					score += 1;
-					document.getElementById("scoreNum").innerHTML = score;
+					document.getElementById("scoreNum").innerHTML = "&nbsp;" + score;
 					// 400x400 / 16 = 25 cases
-					tabFood[i].x = getRandomInt(0, 25) * grid;
-					tabFood[i].y = getRandomInt(0, 25) * grid;
+					tabFood[i].x = getRandomInt(0, randInt) * grid;
+					tabFood[i].y = getRandomInt(0, randInt) * grid;
 				}
 			}
 
@@ -311,16 +392,18 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 							tabFood[i].y = getRandomInt(0, 25) * grid;
 						}
 
-						document.getElementById("highNum").innerHTML =  max;
-						document.getElementById("scoreNum").innerHTML = 0;
+						document.getElementById("highNum").innerHTML = "&nbsp;" + max;
+						document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
 					}
 				}
 
 				if (border == false) {
 					//gestion des bordures, il reaparait de l'autre cote
-					if (snake.y < 0) {
+					if (snake.y < -0) {
+						console.log("negatif");
 						snake.y = canvas.height - grid;
 					} else if (snake.y >= canvas.height) {
+						console.log("postifi");
 						snake.y = 0;
 					}
 					//si la tete du serpent est sur une autre cellule du serpent, le jeu est perdu
@@ -335,12 +418,13 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 							tabFood[i].y = getRandomInt(0, 25) * grid;
 						}
 						//noter le score
-						document.getElementById("highNum").innerHTML = max;
-						document.getElementById("scoreNum").innerHTML = 0;
+						document.getElementById("highNum").innerHTML = "&nbsp;" + max;
+						document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
 					}
 				}
 			}
 		});
+<<<<<<< HEAD
 		//si le score dépasse le highscore alors le  highscore disparait
 		if (document.querySelector("#high").className != 'off'){
 			let highvalue = document.querySelector("#highNum");
@@ -359,6 +443,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 				  
 				
 			}}
+=======
+>>>>>>> c94efff6a2c4045599c9d15a6c6aafb2dec20e17
 	}
 
 	function addEvent() {
@@ -407,12 +493,10 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 	});
 
 	let returnBTN = document.querySelector("#return");
-	returnBTN.addEventListener("click",()=>{
+	returnBTN.addEventListener("click", () => {
+		console.log(window.location);
 		window.location = window.location;
-
 	});
 
 	requestAnimationFrame(loop);
-
-	//deplacer le serpent vers la droite
 };
