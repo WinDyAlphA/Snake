@@ -70,7 +70,7 @@ canvas {
 	flex-direction: row;
 }
 .score,.high{
-
+	
 	background-color: #ff5733;
 	border: 5px solid #ffab33;
 	padding: 10px;
@@ -81,8 +81,12 @@ canvas {
 	display: flex;
 	flex-direction: row;
 }
+
 .off{
-	display:none;
+	display :none;
+}
+.transition{
+	animation:Opacite 2s;
 }
 .meilleur{
 	justify-content: center;
@@ -96,4 +100,20 @@ canvas {
 	border-radius: 10px;
 	display: flex;
 	flex-direction: row;
+}
+
+#zone{
+	border:10px solid #f3f3f3;
+	border-radius: 8px;
+}
+
+
+@keyframes Opacite {
+	0% {
+		opacity:1;
+	}
+	100% {
+		opacity: 0;
+		
+	}
 }

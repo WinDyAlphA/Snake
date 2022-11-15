@@ -28,7 +28,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 	console.log(nbFruits, timingstamp, boolMur, ia);
 	timingstamp = 10 - timingstamp;
 	page.innerHTML =
-		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas></div><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 
@@ -78,10 +78,10 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 		snake.dy = 0;
 		let high = document.querySelector("#high");
 		let score = document.querySelector("#score");
-		high.classList.add('high');
-		score.classList.add('score');
 		high.classList.remove('off');
+		high.classList.add('high');
 		score.classList.remove('meilleur');
+		score.classList.add('score');
 	}
 	//fais une animation de chargement avec ctx
 	function loading() {
@@ -348,10 +348,15 @@ const play = (nbFruits, timingstamp, color, boolMur, ia) => {
 			if(parseInt(scorevalue.innerHTML,10)>parseInt(highvalue.innerHTML,10)){
 				let high = document.querySelector("#high");
 				let score = document.querySelector("#score");
-				high.classList.remove('high');
 				score.classList.remove('score');
-				high.classList.add('off');
 				score.classList.add('meilleur');
+				high.classList.add('transition');
+				setTimeout(() => {
+					high.classList.add('off');
+					high.classList.remove('high');
+					high.classList.remove('transition');
+				  }, "2000")
+				  
 				
 			}}
 	}
