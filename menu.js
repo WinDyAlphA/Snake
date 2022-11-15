@@ -101,11 +101,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
-<<<<<<< HEAD
 		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas></div><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
-=======
-		'<div id="score">Score :<span id="scoreNum">0</span></div><div id="high">High Score :<span id="highNum">0</span></div><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
->>>>>>> c94efff6a2c4045599c9d15a6c6aafb2dec20e17
+
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 	var grid = pixels;
@@ -151,15 +148,12 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		snake.maxCells = 4;
 		snake.dx = grid;
 		snake.dy = 0;
-<<<<<<< HEAD
 		let high = document.querySelector("#high");
 		let score = document.querySelector("#score");
-		high.classList.remove('off');
-		high.classList.add('high');
-		score.classList.remove('meilleur');
-		score.classList.add('score');
-=======
->>>>>>> c94efff6a2c4045599c9d15a6c6aafb2dec20e17
+		high.classList.remove("off");
+		high.classList.add("high");
+		score.classList.remove("meilleur");
+		score.classList.add("score");
 	}
 	//fais une animation de chargement avec ctx
 	function loading() {
@@ -186,6 +180,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		}
 
 		var border = boolMur;
+
 		//si le serpent sort de l'écran, il réapparait de l'autre côté vertcialement
 
 		// garde en memoire les deplacement du serpent. debut du tableau = tete du serpent
@@ -378,10 +373,13 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 						(cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) ||
 						snake.y < 0 ||
 						snake.x < 0 ||
-						(snake.cells[0].x == 0 && snake.cells[0 + 1].x == 384) ||
-						(snake.cells[0].x == 384 && snake.cells[0 + 1].x == 0) ||
+						(snake.cells[0].x == 0 &&
+							snake.cells[0 + 1].x == canvas.width - grid) ||
+						(snake.cells[0].x == canvas.width - grid &&
+							snake.cells[0 + 1].x == 0) ||
 						snake.y >= canvas.height
 					) {
+						console.log("mur");
 						if (score > max) {
 							max = score;
 						}
@@ -424,27 +422,25 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 				}
 			}
 		});
-<<<<<<< HEAD
 		//si le score dépasse le highscore alors le  highscore disparait
-		if (document.querySelector("#high").className != 'off'){
+		if (document.querySelector("#high").className != "off") {
 			let highvalue = document.querySelector("#highNum");
 			let scorevalue = document.querySelector("#scoreNum");
-			if(parseInt(scorevalue.innerHTML,10)>parseInt(highvalue.innerHTML,10)){
+			if (
+				parseInt(scorevalue.innerHTML, 10) > parseInt(highvalue.innerHTML, 10)
+			) {
 				let high = document.querySelector("#high");
 				let score = document.querySelector("#score");
-				score.classList.remove('score');
-				score.classList.add('meilleur');
-				high.classList.add('transition');
+				score.classList.remove("score");
+				score.classList.add("meilleur");
+				high.classList.add("transition");
 				setTimeout(() => {
-					high.classList.add('off');
-					high.classList.remove('high');
-					high.classList.remove('transition');
-				  }, "2000")
-				  
-				
-			}}
-=======
->>>>>>> c94efff6a2c4045599c9d15a6c6aafb2dec20e17
+					high.classList.add("off");
+					high.classList.remove("high");
+					high.classList.remove("transition");
+				}, "2000");
+			}
+		}
 	}
 
 	function addEvent() {
