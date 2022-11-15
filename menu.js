@@ -109,6 +109,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	var count = 0;
 	var score = 0;
 	var max = 0;
+	var nbMur = 3;
 	var laucnhed = false;
 	var snake = {
 		x: 160,
@@ -125,6 +126,16 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		maxCells: 4,
 	};
 	var tabFood = [];
+	var tabMur = [];
+	const createMur = () => {
+		for (let i = 0; i < nbMur; i++) {
+			tabMur[i] = {
+				x: getRandomInt(0, randInt) * grid,
+				y: getRandomInt(0, randInt) * grid,
+			};
+		}
+	};
+	createMur();
 
 	function createFood() {
 		//création de la nourriture selon nbFruits
@@ -167,6 +178,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		if (++count < timestamp) {
 			return;
 		}
+
 		count = 0;
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		// bouger selon sa rapidité
@@ -193,6 +205,11 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		context.fillStyle = "white";
 		for (var i = 0; i < tabFood.length; i++) {
 			context.fillRect(tabFood[i].x, tabFood[i].y, grid - 1, grid - 1);
+		}
+		//dessine les mur tabMur
+		context.fillStyle = "black";
+		for (var i = 0; i < tabMur.length; i++) {
+			context.fillRect(tabMur[i].x, tabMur[i].y, grid - 1, grid - 1);
 		}
 		// Dessine le serpent
 		context.fillStyle = color;
@@ -363,6 +380,22 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 					tabFood[i].y = getRandomInt(0, randInt) * grid;
 				}
 			}
+			for (i = 0; i < tabMur.length; i++) {
+				if (cell.x == tabMur[i].x && cell.y == tabMur[i].y) {
+					if (score > max) {
+						max = score;
+					}
+					snakeOver(snake);
+					score = 0;
+					for (var i = 0; i < tabFood.length; i++) {
+						tabFood[i].x = getRandomInt(0, randInt) * grid;
+						tabFood[i].y = getRandomInt(0, randInt) * grid;
+					}
+
+					document.getElementById("highNum").innerHTML = "&nbsp;" + max;
+					document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
+				}
+			}
 
 			// verifier collision avec le serpent
 			for (var i = index + 1; i < snake.cells.length; i++) {
@@ -386,8 +419,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 						snakeOver(snake);
 						score = 0;
 						for (var i = 0; i < tabFood.length; i++) {
-							tabFood[i].x = getRandomInt(0, 25) * grid;
-							tabFood[i].y = getRandomInt(0, 25) * grid;
+							tabFood[i].x = getRandomInt(0, randInt) * grid;
+							tabFood[i].y = getRandomInt(0, randInt) * grid;
 						}
 
 						document.getElementById("highNum").innerHTML = "&nbsp;" + max;
@@ -412,8 +445,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 						snakeOver(snake);
 						score = 0;
 						for (var i = 0; i < tabFood.length; i++) {
-							tabFood[i].x = getRandomInt(0, 25) * grid;
-							tabFood[i].y = getRandomInt(0, 25) * grid;
+							tabFood[i].x = getRandomInt(0, randInt) * grid;
+							tabFood[i].y = getRandomInt(0, randInt) * grid;
 						}
 						//noter le score
 						document.getElementById("highNum").innerHTML = "&nbsp;" + max;
