@@ -11,21 +11,21 @@ window.onload = function () {
 	var pixels = 0;
 	var randInt = 0;
 	let compteur = 0;
-    var affvitesse = document.getElementById("affvitesse");
-    affvitesse.innerHTML = vitesse.value;
-    vitesse.oninput = function () {
-        affvitesse.innerHTML = this.value;
-    }
-    var affpomme = document.getElementById("affpomme");
-    affpomme.innerHTML = nbPomme.value;
-    nbPomme.oninput = function() {
-        affpomme.innerHTML = this.value;
-    }
+	var affvitesse = document.getElementById("affvitesse");
+	affvitesse.innerHTML = vitesse.value;
+	vitesse.oninput = function () {
+		affvitesse.innerHTML = this.value;
+	};
+	var affpomme = document.getElementById("affpomme");
+	affpomme.innerHTML = nbPomme.value;
+	nbPomme.oninput = function () {
+		affpomme.innerHTML = this.value;
+	};
 	var afftaille = document.getElementById("afftaille");
-    afftaille.innerHTML = nbCells.value;
-    nbCells.oninput = function () {
-        afftaille.innerHTML = this.value;
-    }
+	afftaille.innerHTML = nbCells.value;
+	nbCells.oninput = function () {
+		afftaille.innerHTML = this.value;
+	};
 	document.querySelector("#play").addEventListener("click", (e) => {
 		if (mur.checked) {
 			boolMur = true;
@@ -103,7 +103,6 @@ window.onload = function () {
 	});
 };
 
-
 const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
@@ -125,7 +124,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		// vitesse du serpent. 1 frame = une case parcourue
 		dx: grid,
 		dy: 0,
-
+		direction: "right",
 		// les cellules du serpent sont stockées dans ce tableau
 		cells: [],
 
@@ -145,12 +144,26 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	createMur();
 
 	function createFood() {
-		//création de la nourriture selon nbFruits
+		//création de la nourriture selon nbFruits, si il y a deja une pomme ou un mur on recommence
 		for (let i = 0; i < nbFruits; i++) {
 			tabFood[i] = {
 				x: getRandomInt(0, randInt) * grid,
 				y: getRandomInt(0, randInt) * grid,
 			};
+			for (let j = 0; j < tabMur.length; j++) {
+				if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
+					createFood();
+				}
+			}
+			for (let j = 0; j < tabFood.length; j++) {
+				if (
+					tabFood[i].x == tabFood[j].x &&
+					tabFood[i].y == tabFood[j].y &&
+					i != j
+				) {
+					createFood();
+				}
+			}
 		}
 	}
 	createFood();
@@ -186,6 +199,22 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		if (++count < timestamp) {
 			return;
 		}
+		//set snake direction with dx and dy
+		function setDirection(dx, dy) {
+			if (dy == 0 && dx == grid) {
+				snake.direction = "right";
+			}
+			if (dy == 0 && dx == -grid) {
+				snake.direction = "left";
+			}
+			if (dy == grid && dx == 0) {
+				snake.direction = "up";
+			}
+			if (dy == -grid && dx == 0) {
+				snake.direction = "down";
+			}
+		}
+		setDirection(snake.dx, snake.dy);
 
 		count = 0;
 		context.clearRect(0, 0, canvas.width, canvas.height);
@@ -237,144 +266,102 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 			snake.dy = grid;
 			snake.dx = 0;
 		}
+		function isEmpty(x, y) {
+			var result = true;
+			for (var i = 0; i < tabMur.length; i++) {
+				if (x == tabMur[i].x && y == tabMur[i].y) {
+					result = false;
+				}
+			}
+			//pour chaque cellule du serpent, on verifie si il y a une cellule du serpent qui est sur la meme case
+			for (var i = 1; i < snake.cells.length; i++) {
+				if (x == snake.cells[i].x && y == snake.cells[i].y) {
+					result = false;
+				}
+			}
+			if (x > canvas.width || x < 0) {
+				return false;
+			}
+			if (y > canvas.height || y < 0) {
+				return false;
+			}
+			return result;
+		}
+		function snakeIa() {
+			var foodX = tabFood[0].x;
+			var foodY = tabFood[0].y;
+			var distance = 100000;
+			for (let i = 0; i < tabFood.length; i++) {
+				var distanceX = Math.abs(snake.x - tabFood[i].x);
+				var distanceY = Math.abs(snake.y - tabFood[i].y);
+
+				var distanceTotale = distanceX + distanceY;
+				if (distanceTotale < distance) {
+					distance = distanceTotale;
+					foodX = tabFood[i].x;
+					foodY = tabFood[i].y;
+				}
+			}
+
+			//trouver le X et Y de la nourriture la plus proche
+
+			var vector = [snake.cells[0].x - foodX, snake.cells[0].y - foodY];
+			var down = isEmpty(snake.cells[0].x, snake.cells[0].y + grid);
+			var up = isEmpty(snake.cells[0].x, snake.cells[0].y - grid);
+			var left = isEmpty(snake.cells[0].x - grid, snake.cells[0].y);
+			var right = isEmpty(snake.cells[0].x + grid, snake.cells[0].y);
+			console.log(
+				"uppppp: " +
+					up +
+					" down: " +
+					down +
+					" left: " +
+					left +
+					" right: " +
+					right
+			);
+			var oldDirection = snake.direction;
+			// Get the direction to go
+			var direction = "";
+			if (vector[0] < 0 && right && oldDirection != "left") {
+				direction = "right";
+			} else if (vector[0] > 0 && left && oldDirection != "right") {
+				direction = "left";
+			} else if (vector[1] < 0 && down && oldDirection != "up") {
+				direction = "down";
+			} else if (vector[1] > 0 && up && oldDirection != "down") {
+				direction = "up";
+			}
+			if (direction == "" && down) {
+				direction = "down";
+			} else if (direction == "" && up) {
+				direction = "up";
+			} else if (direction == "" && left) {
+				direction = "left";
+			} else if (direction == "" && right) {
+				direction = "right";
+			}
+			console.log(direction);
+			return direction;
+		}
+		if (ia == true) {
+			var result = snakeIa();
+			if (result == "up") {
+				moveSnakeUp();
+			}
+			if (result == "down") {
+				moveSnakeDown();
+			}
+			if (result == "left") {
+				moveSnakeLeft();
+			}
+			if (result == "right") {
+				moveSnakeRight();
+			}
+		}
+
 		snake.cells.forEach(function (cell, index) {
 			//creation d'une inteligence artificielle qui joue asnake et veut recuperer le plus de nourriture possible
-
-			function snakeIa() {
-				//calculer la nourriture la plus proche
-				var foodX = tabFood[0].x;
-				var foodY = tabFood[0].y;
-				var distance = 1000;
-				for (let i = 0; i < tabFood.length; i++) {
-					var distanceX = Math.abs(snake.x - tabFood[i].x);
-					var distanceY = Math.abs(snake.y - tabFood[i].y);
-					var distanceTotale = distanceX + distanceY;
-					if (distanceTotale < distance) {
-						distance = distanceTotale;
-						foodX = tabFood[i].x;
-						foodY = tabFood[i].y;
-					}
-				}
-				//calculer la prochaine case
-				var nextX = snake.x + snake.dx;
-				var nextY = snake.y + snake.dy;
-				//faire un tableau des cases occupé par le serpent
-				var tabSnake = [];
-				for (let i = 0; i < snake.cells.length; i++) {
-					tabSnake[i] = snake.cells[i].x + snake.cells[i].y;
-				}
-				//le serpent ne peut aller dans la directrion opposé
-				if (tabSnake.includes(nextX + nextY)) {
-					if (snake.dx == -grid) {
-						if (foodX > nextX) {
-							moveSnakeRight();
-						} else if (foodX < nextX) {
-							moveSnakeLeft();
-						} else if (foodY > nextY) {
-							moveSnakeDown();
-						} else if (foodY < nextY) {
-							moveSnakeUp();
-						}
-					} else if (snake.dx == grid) {
-						if (foodX > nextX) {
-							moveSnakeRight();
-						} else if (foodX < nextX) {
-							moveSnakeLeft();
-						} else if (foodY > nextY) {
-							moveSnakeDown();
-						} else if (foodY < nextY) {
-							moveSnakeUp();
-						}
-					} else if (snake.dy == -grid) {
-						if (foodX > nextX) {
-							moveSnakeRight();
-						} else if (foodX < nextX) {
-							moveSnakeLeft();
-						} else if (foodY > nextY) {
-							moveSnakeDown();
-						} else if (foodY < nextY) {
-							moveSnakeUp();
-						}
-					} else if (snake.dy == grid) {
-						if (foodX > nextX) {
-							moveSnakeRight();
-						} else if (foodX < nextX) {
-							moveSnakeLeft();
-						} else if (foodY > nextY) {
-							moveSnakeDown();
-						} else if (foodY < nextY) {
-							moveSnakeUp();
-						}
-					}
-				}
-
-				//si la prochaine case est occupé par le serpent, on change de direction
-				if (tabSnake.includes(nextX + nextY)) {
-					console.log("azerty");
-					if (snake.dx == 0) {
-						if (snake.y > foodY) {
-							console.log("UP");
-							moveSnakeUp();
-						} else {
-							moveSnakeDown();
-							console.log("down");
-						}
-					} else {
-						if (snake.x > foodX) {
-							console.log("left");
-							moveSnakeLeft();
-						} else {
-							moveSnakeRight();
-							console.log("right");
-						}
-					}
-				} else {
-					//si la prochaine case est la nourriture, on mange
-					if (snake.x > foodX) {
-						moveSnakeLeft();
-					} else if (snake.x < foodX) {
-						moveSnakeRight();
-					} else if (snake.y > foodY) {
-						moveSnakeUp();
-					} else if (snake.y < foodY) {
-						moveSnakeDown();
-					}
-				}
-				//si la noutriture est sur la meme ligne que le serpent, on va vers la nourriture
-				if (snake.x == foodX) {
-					if (snake.y > foodY) {
-						moveSnakeUp();
-					} else {
-						moveSnakeDown();
-					}
-				} else if (snake.y == foodY) {
-					if (snake.x > foodX) {
-						moveSnakeLeft();
-					} else {
-						moveSnakeRight();
-					}
-				}
-
-				//le serpent ne dois pas se manger la queue, si il va dans la direction de la queue, il tourne a droite
-
-				//il va a la nouriture la plus proche
-				// if (snake.x < foodX) {
-				// 	moveSnakeRight();
-
-				// } else if (snake.x > foodX) {
-				// 	moveSnakeLeft();
-				// 	console.log("l");
-				// } else if (snake.y < foodY) {
-				// 	moveSnakeDown();
-				// 	console.log("d");
-				// } else if (snake.y > foodY) {
-				// 	moveSnakeUp();
-				// 	console.log("u");
-				// }
-			}
-			if (ia == true) {
-				snakeIa();
-			}
 
 			// dessine le serpent avec un padding de 1px
 			context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
@@ -433,7 +420,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 						}
 
 						document.getElementById("highNum").innerHTML = max;
-						document.getElementById("scoreNum").innerHTML =0;
+						document.getElementById("scoreNum").innerHTML = 0;
 					}
 				}
 
@@ -458,7 +445,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 							tabFood[i].y = getRandomInt(0, randInt) * grid;
 						}
 						//noter le score
-						document.getElementById("highNum").innerHTML =  max;
+						document.getElementById("highNum").innerHTML = max;
 						document.getElementById("scoreNum").innerHTML = 0;
 					}
 				}
@@ -469,26 +456,32 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 			let highvalue = document.querySelector("#highNum");
 			let scorevalue = document.querySelector("#scoreNum");
 			if (
-				parseInt(scorevalue.innerHTML,10) > parseInt(highvalue.innerHTML,10)
+				parseInt(scorevalue.innerHTML, 10) > parseInt(highvalue.innerHTML, 10)
 			) {
 				let high = document.querySelector("#high");
 				let score = document.querySelector("#score");
 				high.classList.add("transition");
 				setTimeout(() => {
-					if (parseInt(scorevalue.innerHTML,10) > parseInt(highvalue.innerHTML,10)) {
+					if (
+						parseInt(scorevalue.innerHTML, 10) >
+						parseInt(highvalue.innerHTML, 10)
+					) {
 						high.classList.add("visibility");
 						score.classList.add("transition2");
 					}
 					high.classList.remove("transition");
 					setTimeout(() => {
-						if (parseInt(scorevalue.innerHTML,10) > parseInt(highvalue.innerHTML,10)) {
-						high.classList.remove("high");
-						score.classList.add("meilleur");
-						score.classList.remove("score");
-						high.classList.add("off");
-					}
-					score.classList.remove("transition2");
-					high.classList.remove("visibility");
+						if (
+							parseInt(scorevalue.innerHTML, 10) >
+							parseInt(highvalue.innerHTML, 10)
+						) {
+							high.classList.remove("high");
+							score.classList.add("meilleur");
+							score.classList.remove("score");
+							high.classList.add("off");
+						}
+						score.classList.remove("transition2");
+						high.classList.remove("visibility");
 					}, "2000");
 				}, "2000");
 			}
