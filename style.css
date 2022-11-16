@@ -13,7 +13,8 @@ body div{
 #parametre{
 	display:block;
 	border: 10px solid #f3f3f3;
-
+	border-radius: 10px;
+	background: #909090;
 }
 #parametre div{
 	margin:15px;
@@ -116,6 +117,26 @@ canvas {
 	margin:0 auto;
 }
 
+.slider {
+	-webkit-appearance: none;
+	width: 100%;
+	height: 15px;
+	border-radius: 5px;  
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+  }
+  
+  .slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%; 
+	background: #00ff00;
+  }
 
 @keyframes Opacite {
 	0% {

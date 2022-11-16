@@ -10,8 +10,22 @@ window.onload = function () {
 	var boolMur = false;
 	var pixels = 0;
 	var randInt = 0;
-
 	let compteur = 0;
+    var affvitesse = document.getElementById("affvitesse");
+    affvitesse.innerHTML = vitesse.value;
+    vitesse.oninput = function () {
+        affvitesse.innerHTML = this.value;
+    }
+    var affpomme = document.getElementById("affpomme");
+    affpomme.innerHTML = nbPomme.value;
+    nbPomme.oninput = function() {
+        affpomme.innerHTML = this.value;
+    }
+	var afftaille = document.getElementById("afftaille");
+    afftaille.innerHTML = nbCells.value;
+    nbCells.oninput = function () {
+        afftaille.innerHTML = this.value;
+    }
 	document.querySelector("#play").addEventListener("click", (e) => {
 		if (mur.checked) {
 			boolMur = true;
@@ -24,19 +38,19 @@ window.onload = function () {
 			ia = false;
 		}
 
-		if (nbCells.value == 0) {
+		if (nbCells.value == 1) {
 			pixels = 40;
 			randInt = 10;
 		}
-		if (nbCells.value == 1) {
+		if (nbCells.value == 2) {
 			pixels = 16;
 			randInt = 25;
 		}
-		if (nbCells.value == 2) {
+		if (nbCells.value == 3) {
 			pixels = 8;
 			randInt = 50;
 		}
-		if (nbCells.value == 3) {
+		if (nbCells.value == 4) {
 			pixels = 4;
 			randInt = 100;
 		}
@@ -88,6 +102,7 @@ window.onload = function () {
 		//si le fichier param.js existe on recupere les parametres
 	});
 };
+
 
 const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	timingstamp = 10 - timingstamp;
@@ -157,6 +172,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 		high.classList.add("high");
 		score.classList.remove("meilleur");
 		score.classList.add("score");
+		createMur();
 	}
 	//fais une animation de chargement avec ctx
 	function loading() {
