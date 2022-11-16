@@ -279,85 +279,13 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 					result = false;
 				}
 			}
-			if (x > canvas.width || x < 0) {
+			if (x >= canvas.width || x < 0) {
 				return false;
 			}
-			if (y > canvas.height || y < 0) {
+			if (y >= canvas.height || y < 0) {
 				return false;
 			}
 			return result;
-		}
-		function snakeIa() {
-			var foodX = tabFood[0].x;
-			var foodY = tabFood[0].y;
-			var distance = 100000;
-			for (let i = 0; i < tabFood.length; i++) {
-				var distanceX = Math.abs(snake.x - tabFood[i].x);
-				var distanceY = Math.abs(snake.y - tabFood[i].y);
-
-				var distanceTotale = distanceX + distanceY;
-				if (distanceTotale < distance) {
-					distance = distanceTotale;
-					foodX = tabFood[i].x;
-					foodY = tabFood[i].y;
-				}
-			}
-
-			//trouver le X et Y de la nourriture la plus proche
-
-			var vector = [snake.cells[0].x - foodX, snake.cells[0].y - foodY];
-			var down = isEmpty(snake.cells[0].x, snake.cells[0].y + grid);
-			var up = isEmpty(snake.cells[0].x, snake.cells[0].y - grid);
-			var left = isEmpty(snake.cells[0].x - grid, snake.cells[0].y);
-			var right = isEmpty(snake.cells[0].x + grid, snake.cells[0].y);
-			console.log(
-				"uppppp: " +
-					up +
-					" down: " +
-					down +
-					" left: " +
-					left +
-					" right: " +
-					right
-			);
-			var oldDirection = snake.direction;
-			// Get the direction to go
-			var direction = "";
-			if (vector[0] < 0 && right && oldDirection != "left") {
-				direction = "right";
-			} else if (vector[0] > 0 && left && oldDirection != "right") {
-				direction = "left";
-			} else if (vector[1] < 0 && down && oldDirection != "up") {
-				direction = "down";
-			} else if (vector[1] > 0 && up && oldDirection != "down") {
-				direction = "up";
-			}
-			if (direction == "" && down) {
-				direction = "down";
-			} else if (direction == "" && up) {
-				direction = "up";
-			} else if (direction == "" && left) {
-				direction = "left";
-			} else if (direction == "" && right) {
-				direction = "right";
-			}
-			console.log(direction);
-			return direction;
-		}
-		if (ia == true) {
-			var result = snakeIa();
-			if (result == "up") {
-				moveSnakeUp();
-			}
-			if (result == "down") {
-				moveSnakeDown();
-			}
-			if (result == "left") {
-				moveSnakeLeft();
-			}
-			if (result == "right") {
-				moveSnakeRight();
-			}
 		}
 
 		snake.cells.forEach(function (cell, index) {
@@ -451,6 +379,82 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 				}
 			}
 		});
+		function snakeIa() {
+			var foodX = tabFood[0].x;
+			var foodY = tabFood[0].y;
+			var distance = 100000;
+			for (let i = 0; i < tabFood.length; i++) {
+				var distanceX = Math.abs(snake.x - tabFood[i].x);
+				var distanceY = Math.abs(snake.y - tabFood[i].y);
+
+				var distanceTotale = distanceX + distanceY;
+				if (distanceTotale < distance) {
+					distance = distanceTotale;
+					foodX = tabFood[i].x;
+					foodY = tabFood[i].y;
+				}
+			}
+			//colorer la case de la nourriture
+			context.fillStyle = "red";
+			context.fillRect(foodX, foodY, grid - 1, grid - 1);
+			context.fillStyle = color;
+
+			//trouver le X et Y de la nourriture la plus proche
+
+			var vector = [snake.cells[0].x - foodX, snake.cells[0].y - foodY];
+			var down = isEmpty(snake.cells[0].x, snake.cells[0].y + grid);
+			var up = isEmpty(snake.cells[0].x, snake.cells[0].y - grid);
+			var left = isEmpty(snake.cells[0].x - grid, snake.cells[0].y);
+			var right = isEmpty(snake.cells[0].x + grid, snake.cells[0].y);
+			console.log(
+				"uppppp: " +
+					up +
+					" down: " +
+					down +
+					" left: " +
+					left +
+					" right: " +
+					right
+			);
+			var oldDirection = snake.direction;
+			// Get the direction to go
+			var direction = "";
+			if (vector[0] < 0 && right && oldDirection != "left") {
+				direction = "right";
+			} else if (vector[0] > 0 && left && oldDirection != "right") {
+				direction = "left";
+			} else if (vector[1] < 0 && down && oldDirection != "up") {
+				direction = "down";
+			} else if (vector[1] > 0 && up && oldDirection != "down") {
+				direction = "up";
+			}
+			if (direction == "" && down) {
+				direction = "down";
+			} else if (direction == "" && up) {
+				direction = "up";
+			} else if (direction == "" && left) {
+				direction = "left";
+			} else if (direction == "" && right) {
+				direction = "right";
+			}
+			console.log(direction);
+			return direction;
+		}
+		if (ia == true) {
+			var result = snakeIa();
+			if (result == "up") {
+				moveSnakeUp();
+			}
+			if (result == "down") {
+				moveSnakeDown();
+			}
+			if (result == "left") {
+				moveSnakeLeft();
+			}
+			if (result == "right") {
+				moveSnakeRight();
+			}
+		}
 		//si le score dépasse le highscore alors le highscore disparait
 		if (document.querySelector("#high").className != "off") {
 			let highvalue = document.querySelector("#highNum");
