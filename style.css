@@ -85,8 +85,15 @@ canvas {
 .off{
 	display :none;
 }
+.visibility{
+	visibility:hidden;
+}
 .transition{
 	animation:Opacite 2s;
+}
+.transition2{
+	animation:slidex 2s;
+	opacity: 1;
 }
 .meilleur{
 	justify-content: center;
@@ -103,8 +110,10 @@ canvas {
 }
 
 #zone{
-	border:10px solid #f3f3f3;
+	border:10px solid #000000;
 	border-radius: 8px;
+	background-color:#AFAFAF;
+	margin:0 auto;
 }
 
 
@@ -114,6 +123,15 @@ canvas {
 	}
 	100% {
 		opacity: 0;
+		
+	}
+}
+@keyframes slidex {
+	0% {
+		transform: translateY(0%);
+	}
+	100% {
+		transform: translateY(100%);
 		
 	}
 }

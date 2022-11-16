@@ -38,16 +38,8 @@ window.onload = function () {
 		}
 		if (nbCells.value == 3) {
 			pixels = 4;
-			console.log("zzz");
 			randInt = 100;
 		}
-		if (nbCells.value == 4) {
-			pixels = 2;
-			console.log("zzz");
-			randInt = 200;
-		}
-
-		console.log("nbCells : " + pixels);
 
 		function Json(nbPomme, vitesse, color, mur, ia, pixels, randInt) {
 			if (
@@ -101,7 +93,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
-		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400" style="background-color:#2c3e50;margin:0 auto; "></canvas></div><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400"></canvas></div><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
@@ -302,6 +294,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 
 				//si la prochaine case est occupé par le serpent, on change de direction
 				if (tabSnake.includes(nextX + nextY)) {
+					console.log("azerty");
 					if (snake.dx == 0) {
 						if (snake.y > foodY) {
 							console.log("UP");
@@ -374,7 +367,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 				if (cell.x === tabFood[i].x && cell.y === tabFood[i].y) {
 					snake.maxCells++;
 					score += 1;
-					document.getElementById("scoreNum").innerHTML = "&nbsp;" + score;
+					document.getElementById("scoreNum").innerHTML = score;
 					// 400x400 / 16 = 25 cases
 					tabFood[i].x = getRandomInt(0, randInt) * grid;
 					tabFood[i].y = getRandomInt(0, randInt) * grid;
@@ -392,8 +385,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 						tabFood[i].y = getRandomInt(0, randInt) * grid;
 					}
 
-					document.getElementById("highNum").innerHTML = "&nbsp;" + max;
-					document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
+					document.getElementById("highNum").innerHTML = max;
+					document.getElementById("scoreNum").innerHTML = 0;
 				}
 			}
 
@@ -423,8 +416,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 							tabFood[i].y = getRandomInt(0, randInt) * grid;
 						}
 
-						document.getElementById("highNum").innerHTML = "&nbsp;" + max;
-						document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
+						document.getElementById("highNum").innerHTML = max;
+						document.getElementById("scoreNum").innerHTML =0;
 					}
 				}
 
@@ -449,28 +442,38 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 							tabFood[i].y = getRandomInt(0, randInt) * grid;
 						}
 						//noter le score
-						document.getElementById("highNum").innerHTML = "&nbsp;" + max;
-						document.getElementById("scoreNum").innerHTML = "&nbsp;" + 0;
+						document.getElementById("highNum").innerHTML =  max;
+						document.getElementById("scoreNum").innerHTML = 0;
 					}
 				}
 			}
 		});
-		//si le score dépasse le highscore alors le  highscore disparait
+		//si le score dépasse le highscore alors le highscore disparait
 		if (document.querySelector("#high").className != "off") {
 			let highvalue = document.querySelector("#highNum");
 			let scorevalue = document.querySelector("#scoreNum");
 			if (
-				parseInt(scorevalue.innerHTML, 10) > parseInt(highvalue.innerHTML, 10)
+				parseInt(scorevalue.innerHTML,10) > parseInt(highvalue.innerHTML,10)
 			) {
 				let high = document.querySelector("#high");
 				let score = document.querySelector("#score");
-				score.classList.remove("score");
-				score.classList.add("meilleur");
 				high.classList.add("transition");
 				setTimeout(() => {
-					high.classList.add("off");
-					high.classList.remove("high");
+					if (parseInt(scorevalue.innerHTML,10) > parseInt(highvalue.innerHTML,10)) {
+						high.classList.add("visibility");
+						score.classList.add("transition2");
+					}
 					high.classList.remove("transition");
+					setTimeout(() => {
+						if (parseInt(scorevalue.innerHTML,10) > parseInt(highvalue.innerHTML,10)) {
+						high.classList.remove("high");
+						score.classList.add("meilleur");
+						score.classList.remove("score");
+						high.classList.add("off");
+					}
+					score.classList.remove("transition2");
+					high.classList.remove("visibility");
+					}, "2000");
 				}, "2000");
 			}
 		}
