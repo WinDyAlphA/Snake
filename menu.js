@@ -1,6 +1,5 @@
 var page = document.querySelector("#page");
 const nbCells = document.querySelector("#taille");
-const difficulte = document.querySelector("#difficulte");
 
 window.onload = function () {
 	var nbPomme = document.querySelector("#nbPomme");
@@ -8,37 +7,38 @@ window.onload = function () {
 	var color = document.querySelector("#color");
 	var mur = document.querySelector("#mur");
 	var ia = document.querySelector("#ia");
+	var difficulte = document.querySelector("#difficulte");
 	var boolMur = false;
 	var pixels = 0;
 	var randInt = 0;
 	let compteur = 0;
 	var affvitesse = document.getElementById("affvitesse");
 	vitesse.oninput = function () {
-		affvitesse.innerHTML = this.value;
+		affvitesse.innerHTML = parseInt(this.value/10+1);
 	};
 	var affpomme = document.getElementById("affpomme");
 	nbPomme.oninput = function () {
-		affpomme.innerHTML = this.value;
+		affpomme.innerHTML = parseInt(this.value/10+1);
 	};
 	var afftaille = document.getElementById("afftaille");
 	nbCells.oninput = function () {
-		afftaille.innerHTML = this.value;
+		afftaille.innerHTML = parseInt(this.value/10+1);
 	};
 	var affdifficulte = document.getElementById("affdifficulte");
 	difficulte.oninput = function () {
-		if (this.value==0){
+		if (parseInt(this.value/10)==0){
 			affdifficulte.innerHTML = "Peacefull";
 		}
-		if (this.value==1){
+		if (parseInt(this.value/10)==1){
 			affdifficulte.innerHTML = "Easy";
 		}
-		if (this.value==2){
+		if (parseInt(this.value/10)==2){
 			affdifficulte.innerHTML = "Medium";
 		}
-		if (this.value==3){
+		if (parseInt(this.value/10)==3){
 			affdifficulte.innerHTML = "Hard";
 		}
-		if (this.value==4){
+		if (parseInt(this.value/10)==4){
 			affdifficulte.innerHTML = "Expert";
 		}
 
@@ -56,19 +56,19 @@ window.onload = function () {
 			ia = false;
 		}
 
-		if (nbCells.value == 1) {
+		if (parseInt(nbCells.value/10+1) == 1) {
 			pixels = 40;
 			randInt = 10;
 		}
-		if (nbCells.value == 2) {
+		if (parseInt(nbCells.value/10+1)== 2) {
 			pixels = 16;
 			randInt = 25;
 		}
-		if (nbCells.value == 3) {
+		if (parseInt(nbCells.value/10+1)== 3) {
 			pixels = 8;
 			randInt = 50;
 		}
-		if (nbCells.value == 4) {
+		if (parseInt(nbCells.value/10+1)== 4) {
 			pixels = 4;
 			randInt = 100;
 		}
@@ -106,13 +106,14 @@ window.onload = function () {
 		}
 
 		play(
-			nbPomme.value,
-			vitesse.value,
+			parseInt(nbPomme.value/10+1),
+			parseInt(vitesse.value/10+1),
 			color.value,
 			boolMur,
 			ia,
 			pixels,
-			randInt
+			randInt,
+			parseInt(difficulte.value/10+1),
 		);
 
 		//creer une fonction js, si le fihcier param.js existe pas on lecreer avec les parametres, sinon on recupere les parametres
@@ -121,7 +122,7 @@ window.onload = function () {
 	});
 };
 
-const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
+const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficulte) => {
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
@@ -133,7 +134,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	var count = 0;
 	var score = 0;
 	var max = 0;
-	var nbMur = nbCells.value*nbCells.value*difficulte.value*difficulte.value*2;
+	var nbMur = parseInt(nbCells.value/10+1)*parseInt(nbCells.value/10+1)*difficulte*difficulte*2;
 	var laucnhed = false;
 	var snake = {
 		x: 160,
@@ -419,7 +420,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 				compteur++
 			) {
 				// Loop over every snake segment
-				console.log(
+				/*console.log(
 					"index : ",
 					index,
 					"x: ",
@@ -430,7 +431,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 					tabFood[0].x / grid,
 					"foodY :",
 					tabFood[0].y / grid
-				);
+				);*/
 				var cell = snake.cells[compteur];
 				var segx = cell.x;
 				var segy = cell.y;
