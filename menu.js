@@ -1,4 +1,6 @@
 var page = document.querySelector("#page");
+const nbCells = document.querySelector("#taille");
+const difficulte = document.querySelector("#difficulte");
 
 window.onload = function () {
 	var nbPomme = document.querySelector("#nbPomme");
@@ -6,25 +8,41 @@ window.onload = function () {
 	var color = document.querySelector("#color");
 	var mur = document.querySelector("#mur");
 	var ia = document.querySelector("#ia");
-	var nbCells = document.querySelector("#taille");
 	var boolMur = false;
 	var pixels = 0;
 	var randInt = 0;
 	let compteur = 0;
 	var affvitesse = document.getElementById("affvitesse");
-	affvitesse.innerHTML = vitesse.value;
 	vitesse.oninput = function () {
 		affvitesse.innerHTML = this.value;
 	};
 	var affpomme = document.getElementById("affpomme");
-	affpomme.innerHTML = nbPomme.value;
 	nbPomme.oninput = function () {
 		affpomme.innerHTML = this.value;
 	};
 	var afftaille = document.getElementById("afftaille");
-	afftaille.innerHTML = nbCells.value;
 	nbCells.oninput = function () {
 		afftaille.innerHTML = this.value;
+	};
+	var affdifficulte = document.getElementById("affdifficulte");
+	difficulte.oninput = function () {
+		if (this.value==0){
+			affdifficulte.innerHTML = "Peacefull";
+		}
+		if (this.value==1){
+			affdifficulte.innerHTML = "Easy";
+		}
+		if (this.value==2){
+			affdifficulte.innerHTML = "Medium";
+		}
+		if (this.value==3){
+			affdifficulte.innerHTML = "Hard";
+		}
+		if (this.value==4){
+			affdifficulte.innerHTML = "Expert";
+		}
+
+
 	};
 	document.querySelector("#play").addEventListener("click", (e) => {
 		if (mur.checked) {
@@ -108,7 +126,6 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	console.log(pixels);
 	page.innerHTML =
 		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400"></canvas></div><img id="source" style="display:none;" src="https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
-
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 	var image = document.getElementById("source");
@@ -116,7 +133,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	var count = 0;
 	var score = 0;
 	var max = 0;
-	var nbMur = 3;
+	var nbMur = nbCells.value*nbCells.value*difficulte.value*difficulte.value*2;
 	var laucnhed = false;
 	var snake = {
 		x: 160,
@@ -250,8 +267,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 				64,
 				tabFood[i].x,
 				tabFood[i].y,
-				16,
-				16
+				grid,
+				grid
 			);
 		}
 		//dessine les mur tabMur
@@ -513,8 +530,8 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 					64,
 					snake.cells[compteur].x,
 					snake.cells[compteur].y,
-					16,
-					16
+					grid,
+					grid
 				);
 			}
 		});
