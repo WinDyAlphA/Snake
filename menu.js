@@ -116,7 +116,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	var count = 0;
 	var score = 0;
 	var max = 0;
-	var nbMur = 3;
+	var nbMur = 100;
 	var laucnhed = false;
 	var snake = {
 		x: 160,
@@ -136,9 +136,15 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt) => {
 	var tabMur = [];
 	const createMur = () => {
 		for (let i = 0; i < nbMur; i++) {
+			var x = getRandomInt(0, randInt) * grid;
+			var y = getRandomInt(0, randInt) * grid;
+			while (x > 130 && x < 300 && y > 100 && y < 210) {
+				x = getRandomInt(0, randInt) * grid;
+				y = getRandomInt(0, randInt) * grid;
+			}
 			tabMur[i] = {
-				x: getRandomInt(0, randInt) * grid,
-				y: getRandomInt(0, randInt) * grid,
+				x: x,
+				y: y,
 			};
 		}
 	};
