@@ -7,6 +7,7 @@ window.onload = function () {
 	var color = document.querySelector("#color");
 	var mur = document.querySelector("#mur");
 	var ia = document.querySelector("#ia");
+	var Autorespawn = document.querySelector("#Autorespawn");
 	var difficulte = document.querySelector("#difficulte");
 	var boolMur = false;
 	var pixels = 0;
@@ -45,6 +46,11 @@ window.onload = function () {
 
 	};
 	document.querySelector("#play").addEventListener("click", (e) => {
+		if (Autorespawn.checked) {
+			Autorespawn = true;
+		} else {
+			Autorespawn = false;
+		}
 		if (mur.checked) {
 			boolMur = true;
 		} else {
@@ -114,6 +120,7 @@ window.onload = function () {
 			pixels,
 			randInt,
 			parseInt(difficulte.value/10+1),
+			Autorespawn
 		);
 
 		//creer une fonction js, si le fihcier param.js existe pas on lecreer avec les parametres, sinon on recupere les parametres
@@ -122,7 +129,7 @@ window.onload = function () {
 	});
 };
 
-const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficulte) => {
+const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficulte,Autorespawn) => {
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
@@ -211,6 +218,12 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficu
 		score.classList.remove("meilleur");
 		score.classList.add("score");
 		createMur();
+		if (!Autorespawn){
+			console.log("respawn");
+			paused = true;
+			pauseBtn.innerHTML = "Play";
+			timestamp = Infinity;
+		}
 	}
 	//fais une animation de chargement avec ctx
 	function loading() {
@@ -658,7 +671,12 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficu
 	function addEvent() {
 		document.addEventListener("keydown", function (e) {
 			// left arrow key
-
+			if ((e.key == "Enter"||e.key == " "||e.key.includes("Arrow"))&&paused){
+				console.log("play");
+				timestamp = timingstamp;
+				paused = false;
+				pauseBtn.innerHTML = "Pause";
+			}
 			if (e.key == "ArrowLeft" && snake.dx === 0) {
 				snake.dx = -grid;
 				snake.dy = 0;
@@ -692,7 +710,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficu
 		if (!paused) {
 			paused = true;
 			pauseBtn.innerHTML = "Play";
-			timestamp = 10000;
+			timestamp = Infinity;
 		} else {
 			paused = false;
 			pauseBtn.innerHTML = "Pause";
