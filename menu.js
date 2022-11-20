@@ -66,6 +66,15 @@ window.onload = function () {
 		console.log(document.cookie);
 	}
 	//recuperer les parametres dans les cookies
+	//si les cookies sont vides
+	function emptyCookies() {
+		if (document.cookie.length < 3) {
+			//on met les valeurs par defaut
+			console.log("empty");
+			save("true", 22, 49, "#000000", "false", "true", 1, 10);
+			setCookies();
+		}
+	}
 	function getCookies() {
 		//recuperer le cookie qui s'apelle "mur"
 		console.log(
@@ -147,6 +156,7 @@ window.onload = function () {
 			affdifficulte.innerHTML = "Expert";
 		}
 	}
+	emptyCookies();
 	setCookies();
 	document.querySelector("#play").addEventListener("click", (e) => {
 		save(
