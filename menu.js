@@ -15,37 +15,152 @@ window.onload = function () {
 	let compteur = 0;
 	var affvitesse = document.getElementById("affvitesse");
 	vitesse.oninput = function () {
-		affvitesse.innerHTML = parseInt(this.value/10+1);
+		affvitesse.innerHTML = parseInt(this.value / 10 + 1);
 	};
 	var affpomme = document.getElementById("affpomme");
 	nbPomme.oninput = function () {
-		affpomme.innerHTML = parseInt(this.value/10+1);
+		affpomme.innerHTML = parseInt(this.value / 10 + 1);
 	};
 	var afftaille = document.getElementById("afftaille");
 	nbCells.oninput = function () {
-		afftaille.innerHTML = parseInt(this.value/10+1);
+		afftaille.innerHTML = parseInt(this.value / 10 + 1);
 	};
 	var affdifficulte = document.getElementById("affdifficulte");
 	difficulte.oninput = function () {
-		if (parseInt(this.value/10)==0){
+		if (parseInt(this.value / 10) == 0) {
 			affdifficulte.innerHTML = "Peacefull";
 		}
-		if (parseInt(this.value/10)==1){
+		if (parseInt(this.value / 10) == 1) {
 			affdifficulte.innerHTML = "Easy";
 		}
-		if (parseInt(this.value/10)==2){
+		if (parseInt(this.value / 10) == 2) {
 			affdifficulte.innerHTML = "Medium";
 		}
-		if (parseInt(this.value/10)==3){
+		if (parseInt(this.value / 10) == 3) {
 			affdifficulte.innerHTML = "Hard";
 		}
-		if (parseInt(this.value/10)==4){
+		if (parseInt(this.value / 10) == 4) {
 			affdifficulte.innerHTML = "Expert";
 		}
-
-
 	};
+
+	//enregistrer les parametres dans un plusieur cookies
+	function save(
+		mur,
+		pommes,
+		vitesse,
+		couleur,
+		ia,
+		Autorespawn,
+		difficulte,
+		taille
+	) {
+		document.cookie = "mur=" + mur + ";";
+		document.cookie = "pommes=" + pommes + ";";
+		document.cookie = "vitesse=" + vitesse + ";";
+		document.cookie = "couleur=" + couleur + ";";
+		document.cookie = "ia=" + ia + ";";
+		document.cookie = "Autorespawn=" + Autorespawn + ";";
+		document.cookie = "difficulte=" + difficulte + ";";
+		document.cookie = "taille=" + taille + ";";
+		console.log(document.cookie);
+	}
+	//recuperer les parametres dans les cookies
+	function getCookies() {
+		//recuperer le cookie qui s'apelle "mur"
+		console.log(
+			document.cookie
+				.split("; ")
+				.find((row) => row.includes("mur="))
+				?.split("=")[1]
+		);
+
+		var cookies = document.cookie.split(";");
+		var cookie_mur = cookies.find((row) => row.includes("mur="))?.split("=")[1];
+		var cookie_pommes = cookies
+			.find((row) => row.includes("pommes="))
+			?.split("=")[1];
+		var cookie_vitesse = cookies
+			.find((row) => row.includes("vitesse="))
+			?.split("=")[1];
+		var cookie_couleur = cookies
+			.find((row) => row.includes("couleur="))
+			?.split("=")[1];
+		var cookie_ia = cookies.find((row) => row.includes("ia="))?.split("=")[1];
+		var cookie_Autorespawn = cookies
+			.find((row) => row.includes("Autorespawn="))
+			?.split("=")[1];
+		var cookie_difficulte = cookies
+			.find((row) => row.includes("difficulte="))
+			?.split("=")[1];
+		var cookie_taille = cookies
+			.find((row) => row.includes("taille="))
+			?.split("=")[1];
+
+		//retrun object
+		return {
+			mur: cookie_mur,
+			pommes: cookie_pommes,
+			vitesse: cookie_vitesse,
+			couleur: cookie_couleur,
+			ia: cookie_ia,
+			Autorespawn: cookie_Autorespawn,
+			difficulte: cookie_difficulte,
+			taille: cookie_taille,
+		};
+	}
+	console.log(document.cookie);
+	//modifier le html en fonction des cookies
+	function setCookies() {
+		var cookies = getCookies();
+		console.log(cookies);
+		console.log(cookies.mur);
+		if (cookies.mur == "true") {
+			mur.checked = true;
+		}
+		nbPomme.value = cookies.pommes;
+		vitesse.value = cookies.vitesse;
+		color.value = cookies.couleur;
+		if (cookies.ia == "true") {
+			ia.checked = true;
+		}
+		if (cookies.Autorespawn == "true") {
+			Autorespawn.checked = true;
+		}
+		difficulte.value = cookies.difficulte;
+		taille.value = cookies.taille;
+		affvitesse.innerHTML = parseInt(vitesse.value / 10 + 1);
+		affpomme.innerHTML = parseInt(nbPomme.value / 10 + 1);
+		afftaille.innerHTML = parseInt(taille.value / 10 + 1);
+		if (parseInt(difficulte.value / 10) == 0) {
+			affdifficulte.innerHTML = "Peacefull";
+		}
+		if (parseInt(difficulte.value / 10) == 1) {
+			affdifficulte.innerHTML = "Easy";
+		}
+		if (parseInt(difficulte.value / 10) == 2) {
+			affdifficulte.innerHTML = "Medium";
+		}
+		if (parseInt(difficulte.value / 10) == 3) {
+			affdifficulte.innerHTML = "Hard";
+		}
+		if (parseInt(difficulte.value / 10) == 4) {
+			affdifficulte.innerHTML = "Expert";
+		}
+	}
+	setCookies();
 	document.querySelector("#play").addEventListener("click", (e) => {
+		save(
+			mur.checked,
+			nbPomme.value,
+			vitesse.value,
+			color.value,
+			ia.checked,
+			Autorespawn.checked,
+			difficulte.value,
+			taille.value
+		);
+		console.log(nbPomme.value);
 		if (Autorespawn.checked) {
 			Autorespawn = true;
 		} else {
@@ -62,64 +177,32 @@ window.onload = function () {
 			ia = false;
 		}
 
-		if (parseInt(nbCells.value/10+1) == 1) {
+		if (parseInt(nbCells.value / 10 + 1) == 1) {
 			pixels = 40;
 			randInt = 10;
 		}
-		if (parseInt(nbCells.value/10+1)== 2) {
+		if (parseInt(nbCells.value / 10 + 1) == 2) {
 			pixels = 16;
 			randInt = 25;
 		}
-		if (parseInt(nbCells.value/10+1)== 3) {
+		if (parseInt(nbCells.value / 10 + 1) == 3) {
 			pixels = 8;
 			randInt = 50;
 		}
-		if (parseInt(nbCells.value/10+1)== 4) {
+		if (parseInt(nbCells.value / 10 + 1) == 4) {
 			pixels = 4;
 			randInt = 100;
 		}
 
-		function Json(nbPomme, vitesse, color, mur, ia, pixels, randInt) {
-			if (
-				localStorage.getItem("param") == null ||
-				localStorage.getItem("param") == undefined
-			) {
-				var param = {
-					nbPomme: nbPomme,
-					vitesse: vitesse,
-					color: color,
-					mur: mur,
-					ia: ia,
-					pixels: pixels,
-					randInt: randInt,
-				};
-				var paramJson = JSON.stringify(param);
-				localStorage.setItem("param", paramJson);
-			}
-			if (
-				localStorage.getItem("param") != null ||
-				localStorage.getItem("param") != undefined
-			) {
-				var param = JSON.parse(localStorage.getItem("param"));
-				nbPomme = param.nbPomme;
-				vitesse = param.vitesse;
-				color = param.color;
-				mur = param.mur;
-				ia = param.ia;
-				pixels = param.pixels;
-				randInt = param.randInt;
-			}
-		}
-
 		play(
-			parseInt(nbPomme.value/10+1),
-			parseInt(vitesse.value/10+1),
+			parseInt(nbPomme.value / 10 + 1),
+			parseInt(vitesse.value / 10 + 1),
 			color.value,
 			boolMur,
 			ia,
 			pixels,
 			randInt,
-			parseInt(difficulte.value/10+1),
+			parseInt(difficulte.value / 10 + 1),
 			Autorespawn
 		);
 
@@ -129,7 +212,17 @@ window.onload = function () {
 	});
 };
 
-const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficulte,Autorespawn) => {
+const play = (
+	nbFruits,
+	timingstamp,
+	color,
+	boolMur,
+	ia,
+	pixels,
+	randInt,
+	difficulte,
+	Autorespawn
+) => {
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
@@ -141,7 +234,12 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficu
 	var count = 0;
 	var score = 0;
 	var max = 0;
-	var nbMur = parseInt(nbCells.value/10+1)*parseInt(nbCells.value/10+1)*difficulte*difficulte*2;
+	var nbMur =
+		parseInt(nbCells.value / 10 + 1) *
+		parseInt(nbCells.value / 10 + 1) *
+		difficulte *
+		difficulte *
+		2;
 	var laucnhed = false;
 	var snake = {
 		x: 160,
@@ -218,7 +316,7 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficu
 		score.classList.remove("meilleur");
 		score.classList.add("score");
 		createMur();
-		if (!Autorespawn){
+		if (!Autorespawn) {
 			console.log("respawn");
 			paused = true;
 			pauseBtn.innerHTML = "Play";
@@ -671,7 +769,10 @@ const play = (nbFruits, timingstamp, color, boolMur, ia, pixels, randInt,difficu
 	function addEvent() {
 		document.addEventListener("keydown", function (e) {
 			// left arrow key
-			if ((e.key == "Enter"||e.key == " "||e.key.includes("Arrow"))&&paused){
+			if (
+				(e.key == "Enter" || e.key == " " || e.key.includes("Arrow")) &&
+				paused
+			) {
 				console.log("play");
 				timestamp = timingstamp;
 				paused = false;
