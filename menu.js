@@ -96,7 +96,6 @@ window.onload = function () {
 		var cookie_taille = cookies
 			.find((row) => row.includes("taille="))
 			?.split("=")[1];
-
 		//retrun object
 		return {
 			mur: cookie_mur,
