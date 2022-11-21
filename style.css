@@ -1,8 +1,16 @@
-body {
+.test {
 	background: url(https://wallpaperaccess.com/full/1216331.jpg);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	height: 97vh;
+	font-family: 'Poppins';
+}
+.loader{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #303030;
 	height: 97vh;
 	font-family: 'Poppins';
 }

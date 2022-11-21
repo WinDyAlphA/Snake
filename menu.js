@@ -5,24 +5,26 @@ window.onload = function () {
 	var canvas2 =document.querySelector("#load");
 	var context2 = canvas2.getContext("2d");
 	var sprite =document.querySelector("#sprite");
+	var affloader = document.querySelector("#affloader");
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 	function createMotion(i){
 		context2.clearRect(0, 0, canvas2.width, canvas2.height);
 		context2.drawImage(sprite,4* 64, 2 * 64,64,64,0,0,40,40);
-		if (i!=720){
+		affloader.innerHTML = i*5+10+"&nbsp%";
+		if (i!=18){
 			context2.drawImage(sprite,0* 64, 3 * 64,64,64,760,0,40,40);
 		}
 		var j=0;
-		for(j= 40;j<i+40;j=j+40){
-			context2.drawImage(sprite,1* 64, 0 * 64,64,64,j,0,40,40);
+		for(j= 1;j<i+1;j++){
+			context2.drawImage(sprite,1* 64, 0 * 64,64,64,j*40,0,40,40);
 		}
-		context2.drawImage(sprite,4* 64, 0 * 64,64,64,j,0,40,40);
+		context2.drawImage(sprite,4* 64, 0 * 64,64,64,j*40,0,40,40);
 	
 	}
 	async function test(){
-	for (var i =40; i<760;i=i+40){
+	for (var i =1; i<19;i++){
 	createMotion(i);
 	await sleep(200);
 	}}
@@ -244,6 +246,9 @@ window.onload = function () {
 
 		//si le fichier param.js existe on recupere les parametres
 	});
+	var body = document.querySelector("#body");
+	body.classList.remove('loader');
+	body.classList.add('test');
 	}, 4400);
 };
 
