@@ -71,7 +71,7 @@ window.onload = function () {
 		if (document.cookie.length < 3) {
 			//on met les valeurs par defaut
 			console.log("empty");
-			save("true", 22, 49, "#000000", "false", "true", 1, 10);
+			save("true", 22, 49, "#000000", "false", "true", 9, 10);
 			setCookies();
 		}
 	}
@@ -311,6 +311,12 @@ const play = (
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
 	function snakeOver(snake) {
+		var myAudio1 = document.createElement("audio");
+		myAudio1.src = "bruitTete.mp3";
+		myAudio1.play();
+		var myAudio2 = document.createElement("audio");
+		myAudio2.src = "musiqueOver.mp3";
+		myAudio2.play();
 		//remise à zéro du serpent
 		snake.x = 160;
 		snake.y = 160;
@@ -458,6 +464,9 @@ const play = (
 					// 400x400 / 16 = 25 cases
 					tabFood[i].x = getRandomInt(0, randInt) * grid;
 					tabFood[i].y = getRandomInt(0, randInt) * grid;
+					var myAudio = document.createElement("audio");
+					myAudio.src = "bruitMange.mp3";
+					myAudio.play();
 				}
 			}
 			for (i = 0; i < tabMur.length; i++) {
@@ -465,6 +474,7 @@ const play = (
 					if (score > max) {
 						max = score;
 					}
+
 					snakeOver(snake);
 					score = 0;
 					for (var i = 0; i < tabFood.length; i++) {
