@@ -1,10 +1,38 @@
 var page = document.querySelector("#page");
-const nbCells = document.querySelector("#taille");
+
 
 window.onload = function () {
+	var canvas2 =document.querySelector("#load");
+	var context2 = canvas2.getContext("2d");
+	var sprite =document.querySelector("#sprite");
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	function createMotion(i){
+		context2.clearRect(0, 0, canvas2.width, canvas2.height);
+		context2.drawImage(sprite,4* 64, 2 * 64,64,64,0,0,40,40);
+		if (i!=720){
+			context2.drawImage(sprite,0* 64, 3 * 64,64,64,760,0,40,40);
+		}
+		var j=0;
+		for(j= 40;j<i+40;j=j+40){
+			context2.drawImage(sprite,1* 64, 0 * 64,64,64,j,0,40,40);
+		}
+		context2.drawImage(sprite,4* 64, 0 * 64,64,64,j,0,40,40);
+	
+	}
+	async function test(){
+	for (var i =40; i<760;i=i+40){
+	createMotion(i);
+	await sleep(200);
+	}}
+	test();
+	setTimeout(() => {
+
+	page.innerHTML ='<div id="parametre"><div><Label>Activer murs</Label><input id="mur" type="checkbox"></div><div><Label>Auto-respawn</Label><input id="Autorespawn" type="checkbox"></div><div><Label>Activer IA</Label><input id="ia" type="checkbox"></div><div><Label>Choisi la vitesse :&nbsp<span id="affvitesse">4</span></Label><input id="vitesse" type="range" min="1" max="99" step="1" value="1" class="slider"></div><div><Label>Choisi le nombre de pomme :&nbsp<span id="affpomme">1</span></Label><input id="nbPomme" type="range" min="1" max="99" step="1" value="1" class="slider"></div><div><Label>Choisi la taille :&nbsp<span id="afftaille">2</span></Label><input id="taille" type="range" min="1" max="39" step="1" value="15" class="slider"></div><div><Label>Choisi la difficulté :&nbsp<span id="affdifficulte">Medium</span></Label><input id="difficulte" type="range" min="0" max="49" step="1" value="25" class="slider"></div></div><div id="play">PLAY</div></div>'
+	var nbCells = document.querySelector("#taille");
 	var nbPomme = document.querySelector("#nbPomme");
 	var vitesse = document.querySelector("#vitesse");
-	var color = document.querySelector("#color");
 	var mur = document.querySelector("#mur");
 	var ia = document.querySelector("#ia");
 	var Autorespawn = document.querySelector("#Autorespawn");
@@ -128,7 +156,6 @@ window.onload = function () {
 		}
 		nbPomme.value = cookies.pommes;
 		vitesse.value = cookies.vitesse;
-		color.value = cookies.couleur;
 		if (cookies.ia == "true") {
 			ia.checked = true;
 		}
@@ -163,7 +190,6 @@ window.onload = function () {
 			mur.checked,
 			nbPomme.value,
 			vitesse.value,
-			color.value,
 			ia.checked,
 			Autorespawn.checked,
 			difficulte.value,
@@ -206,12 +232,11 @@ window.onload = function () {
 		play(
 			parseInt(nbPomme.value / 10 + 1),
 			parseInt(vitesse.value / 10 + 1),
-			color.value,
 			boolMur,
 			ia,
 			pixels,
 			randInt,
-			parseInt(difficulte.value / 10 + 1),
+			parseInt(difficulte.value / 10 ),
 			Autorespawn
 		);
 
@@ -219,12 +244,12 @@ window.onload = function () {
 
 		//si le fichier param.js existe on recupere les parametres
 	});
+	}, 4400);
 };
 
 const play = (
 	nbFruits,
 	timingstamp,
-	color,
 	boolMur,
 	ia,
 	pixels,
@@ -232,6 +257,7 @@ const play = (
 	difficulte,
 	Autorespawn
 ) => {
+	var nbCells = document.querySelector("#taille");
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
@@ -243,12 +269,7 @@ const play = (
 	var count = 0;
 	var score = 0;
 	var max = 0;
-	var nbMur =
-		parseInt(nbCells.value / 10 + 1) *
-		parseInt(nbCells.value / 10 + 1) *
-		difficulte *
-		difficulte *
-		2;
+	var nbMur =parseInt(nbCells.value / 10 + 1) *parseInt(nbCells.value / 10 + 1) *difficulte *difficulte *2;
 	var laucnhed = false;
 	var snake = {
 		x: 160,
@@ -332,6 +353,7 @@ const play = (
 		snake.maxCells = 4;
 		snake.dx = grid;
 		snake.dy = 0;
+		//remet a zéro le css highscore et score
 		let high = document.querySelector("#high");
 		let score = document.querySelector("#score");
 		high.classList.remove("off");
@@ -340,6 +362,7 @@ const play = (
 		score.classList.add("score");
 		createMur();
 		createFood();
+		//met en pause si l'autorespawn n'est pas activer
 		if (!Autorespawn) {
 			paused = true;
 			pauseBtn.innerHTML = "Play";
@@ -414,7 +437,6 @@ const play = (
 			context.drawImage(imagemur,0,0,640,640,tabMur[i].x, tabMur[i].y, grid - 1, grid - 1);
 		}
 		// Dessine le serpent
-		context.fillStyle = color;
 		function moveSnakeLeft() {
 			snake.dx = -grid;
 			snake.dy = 0;
@@ -704,7 +726,6 @@ const play = (
 			//colorer la case de la nourriture
 			context.fillStyle = "red";
 			context.fillRect(foodX, foodY, grid - 1, grid - 1);
-			context.fillStyle = color;
 
 			//trouver le X et Y de la nourriture la plus proche
 

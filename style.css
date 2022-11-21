@@ -6,6 +6,16 @@ body {
 	height: 97vh;
 	font-family: 'Poppins';
 }
+#page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#page>span{
+	font-size: 50px;
+	color: #1d9423;
+	font-weight:bold;
+}
 body div{
 	display:flex;
 	flex-direction: column;
@@ -82,7 +92,7 @@ canvas {
 	flex-direction: row;
 }
 
-.off{
+.off,#sprite{
 	display :none;
 }
 .visibility{
