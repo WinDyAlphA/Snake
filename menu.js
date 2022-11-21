@@ -235,7 +235,7 @@ const play = (
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
-		'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400"></canvas></div><img id="source" style="display:none;" src="https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+	'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400"></canvas></div><img id="source" style="display:none;" src="https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png"width="320" height="256"><img id="image-mur" style="display:none;" src="https://preview.redd.it/r28nmgaqhyy11.png?width=640&format=png&auto=webp&s=03e773a6929f4380987c40f5c4e922fe8c13ea2a"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 	var image = document.getElementById("source");
@@ -289,20 +289,28 @@ const play = (
 				x: getRandomInt(0, randInt) * grid,
 				y: getRandomInt(0, randInt) * grid,
 			};
-			for (let j = 0; j < tabMur.length; j++) {
-				if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
-					createFood();
+			var newfood = true;
+			do{
+				newfood = true;
+				for (let j = 0; j < tabMur.length; j++) {
+					if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
+						newfood = false;
+						tabFood[i].x = getRandomInt(0, randInt) * grid;
+						tabFood[i].y = getRandomInt(0, randInt) * grid;
+					}
 				}
-			}
-			for (let j = 0; j < tabFood.length; j++) {
-				if (
-					tabFood[i].x == tabFood[j].x &&
-					tabFood[i].y == tabFood[j].y &&
-					i != j
-				) {
-					createFood();
+				for (let j = 0; j < tabFood.length; j++) {
+					if (
+						tabFood[i].x == tabFood[j].x &&
+						tabFood[i].y == tabFood[j].y &&
+						i != j
+					) {
+						newfood = false;
+						tabFood[i].x = getRandomInt(0, randInt) * grid;
+						tabFood[i].y = getRandomInt(0, randInt) * grid;
+					}
 				}
-			}
+			}while(newfood==false)
 		}
 	}
 	createFood();
@@ -312,10 +320,10 @@ const play = (
 	}
 	function snakeOver(snake) {
 		var myAudio1 = document.createElement("audio");
-		myAudio1.src = "bruitTete.mp3";
+		myAudio1.src = "./sound/bruitTete.mp3";
 		myAudio1.play();
 		var myAudio2 = document.createElement("audio");
-		myAudio2.src = "musiqueOver.mp3";
+		myAudio2.src = "./sound/musiqueOver.mp3";
 		myAudio2.play();
 		//remise à zéro du serpent
 		snake.x = 160;
@@ -331,16 +339,12 @@ const play = (
 		score.classList.remove("meilleur");
 		score.classList.add("score");
 		createMur();
+		createFood();
 		if (!Autorespawn) {
-			console.log("respawn");
 			paused = true;
 			pauseBtn.innerHTML = "Play";
 			timestamp = Infinity;
 		}
-	}
-	//fais une animation de chargement avec ctx
-	function loading() {
-		var ctx = document.getElementById("zone").getContext("2d");
 	}
 	var timestamp = timingstamp;
 	//boucle infinie
@@ -405,9 +409,9 @@ const play = (
 			);
 		}
 		//dessine les mur tabMur
-		context.fillStyle = "black";
+		let imagemur = document.querySelector("#image-mur");
 		for (var i = 0; i < tabMur.length; i++) {
-			context.fillRect(tabMur[i].x, tabMur[i].y, grid - 1, grid - 1);
+			context.drawImage(imagemur,0,0,640,640,tabMur[i].x, tabMur[i].y, grid - 1, grid - 1);
 		}
 		// Dessine le serpent
 		context.fillStyle = color;
@@ -464,8 +468,30 @@ const play = (
 					// 400x400 / 16 = 25 cases
 					tabFood[i].x = getRandomInt(0, randInt) * grid;
 					tabFood[i].y = getRandomInt(0, randInt) * grid;
+					var newfood = true;
+					do{
+						newfood = true;
+						for (let j = 0; j < tabMur.length; j++) {
+							if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
+								newfood = false;
+								tabFood[i].x = getRandomInt(0, randInt) * grid;
+								tabFood[i].y = getRandomInt(0, randInt) * grid;
+							}
+						}
+						for (let j = 0; j < tabFood.length; j++) {
+							if (
+								tabFood[i].x == tabFood[j].x &&
+								tabFood[i].y == tabFood[j].y &&
+								i != j
+							) {
+								newfood = false;
+								tabFood[i].x = getRandomInt(0, randInt) * grid;
+								tabFood[i].y = getRandomInt(0, randInt) * grid;
+							}
+						}
+					}while(newfood==false)
 					var myAudio = document.createElement("audio");
-					myAudio.src = "bruitMange.mp3";
+					myAudio.src = "./sound/bruitMange.mp3";
 					myAudio.play();
 				}
 			}
@@ -477,10 +503,6 @@ const play = (
 
 					snakeOver(snake);
 					score = 0;
-					for (var i = 0; i < tabFood.length; i++) {
-						tabFood[i].x = getRandomInt(0, randInt) * grid;
-						tabFood[i].y = getRandomInt(0, randInt) * grid;
-					}
 
 					document.getElementById("highNum").innerHTML = max;
 					document.getElementById("scoreNum").innerHTML = 0;
@@ -508,10 +530,6 @@ const play = (
 						}
 						snakeOver(snake);
 						score = 0;
-						for (var i = 0; i < tabFood.length; i++) {
-							tabFood[i].x = getRandomInt(0, randInt) * grid;
-							tabFood[i].y = getRandomInt(0, randInt) * grid;
-						}
 
 						document.getElementById("highNum").innerHTML = max;
 						document.getElementById("scoreNum").innerHTML = 0;
@@ -534,10 +552,6 @@ const play = (
 						}
 						snakeOver(snake);
 						score = 0;
-						for (var i = 0; i < tabFood.length; i++) {
-							tabFood[i].x = getRandomInt(0, randInt) * grid;
-							tabFood[i].y = getRandomInt(0, randInt) * grid;
-						}
 						//noter le score
 						document.getElementById("highNum").innerHTML = max;
 						document.getElementById("scoreNum").innerHTML = 0;
@@ -699,16 +713,6 @@ const play = (
 			var up = isEmpty(snake.cells[0].x, snake.cells[0].y - grid);
 			var left = isEmpty(snake.cells[0].x - grid, snake.cells[0].y);
 			var right = isEmpty(snake.cells[0].x + grid, snake.cells[0].y);
-			console.log(
-				"uppppp: " +
-					up +
-					" down: " +
-					down +
-					" left: " +
-					left +
-					" right: " +
-					right
-			);
 			var oldDirection = snake.direction;
 			// Get the direction to go
 			var direction = "";
@@ -730,7 +734,7 @@ const play = (
 			} else if (direction == "" && right) {
 				direction = "right";
 			}
-			console.log(direction);
+			//console.log(direction);
 			return direction;
 		}
 		if (ia == true) {
@@ -840,14 +844,17 @@ const play = (
 		}
 		document.addEventListener("keydown", function (e) {
 			// left arrow key
-			if (
-				(e.key == "Enter" || e.key == " " || e.key.includes("Arrow")) &&
-				paused
-			) {
+			if (e.key == "Enter"||e.key == " "){
 				console.log("play");
-				timestamp = timingstamp;
-				paused = false;
-				pauseBtn.innerHTML = "Pause";
+				if (!paused) {
+					paused = true;
+					pauseBtn.innerHTML = "Play";
+					timestamp = Infinity;
+				} else {
+					paused = false;
+					pauseBtn.innerHTML = "Pause";
+					timestamp = timingstamp;
+				}
 			}
 			if (e.key == "ArrowLeft" && snake.dx === 0) {
 				snake.dx = -grid;
