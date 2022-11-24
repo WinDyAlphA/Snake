@@ -99,7 +99,7 @@ window.onload = function () {
 		if (document.cookie.length < 3) {
 			//on met les valeurs par defaut
 			console.log("empty");
-			save("true", 22, 49, "#000000", "false", "true", 9, 10);
+			save("true", 22, 49, "false", "true", 9, 10);
 			setCookies();
 		}
 	}
@@ -260,7 +260,7 @@ const play = (
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
-	'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><div id="canvas"><canvas id="zone" width="400" height="400"></canvas></div><img id="source" style="display:none;" src="https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png"width="320" height="256"><img id="image-mur" style="display:none;" src="https://preview.redd.it/r28nmgaqhyy11.png?width=640&format=png&auto=webp&s=03e773a6929f4380987c40f5c4e922fe8c13ea2a"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+	'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-graphics.png"width="320" height="256"><img id="image-mur" style="display:none;" src="https://preview.redd.it/r28nmgaqhyy11.png?width=640&format=png&auto=webp&s=03e773a6929f4380987c40f5c4e922fe8c13ea2a"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 	var image = document.getElementById("source");
@@ -301,40 +301,39 @@ const play = (
 		}
 	};
 	createMur();
-
-	function createFood() {
-		//création de la nourriture selon nbFruits, si il y a deja une pomme ou un mur on recommence
-		for (let i = 0; i < nbFruits; i++) {
-			tabFood[i] = {
+	//crée une pomme
+	function createFood(index) {
+			var newfood = true;
+			tabFood[index] = {
 				x: getRandomInt(0, randInt) * grid,
 				y: getRandomInt(0, randInt) * grid,
 			};
-			var newfood = true;
 			do{
 				newfood = true;
 				for (let j = 0; j < tabMur.length; j++) {
-					if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
+					if (tabFood[index].x == tabMur[j].x && tabFood[index].y == tabMur[j].y) {
 						newfood = false;
-						tabFood[i].x = getRandomInt(0, randInt) * grid;
-						tabFood[i].y = getRandomInt(0, randInt) * grid;
+						tabFood[index].x = getRandomInt(0, randInt) * grid;
+						tabFood[index].y = getRandomInt(0, randInt) * grid;
 					}
 				}
 				for (let j = 0; j < tabFood.length; j++) {
 					if (
-						tabFood[i].x == tabFood[j].x &&
-						tabFood[i].y == tabFood[j].y &&
+						tabFood[index].x == tabFood[j].x &&
+						tabFood[index].y == tabFood[j].y &&
 						i != j
-					) {
-						newfood = false;
-						tabFood[i].x = getRandomInt(0, randInt) * grid;
-						tabFood[i].y = getRandomInt(0, randInt) * grid;
+						) {
+							newfood = false;
+							tabFood[index].x = getRandomInt(0, randInt) * grid;
+							tabFood[index].y = getRandomInt(0, randInt) * grid;
+						}
 					}
-				}
-			}while(newfood==false)
-		}
+				}while(newfood==false)
+			}
+	//création de la nourriture selon nbFruits, si il y a deja une pomme ou un mur on recommence
+	for (let i = 0; i < nbFruits; i++) {
+		createFood();
 	}
-	createFood();
-
 	function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
@@ -487,30 +486,7 @@ const play = (
 					score += 1;
 					document.getElementById("scoreNum").innerHTML = score;
 					// 400x400 / 16 = 25 cases
-					tabFood[i].x = getRandomInt(0, randInt) * grid;
-					tabFood[i].y = getRandomInt(0, randInt) * grid;
-					var newfood = true;
-					do{
-						newfood = true;
-						for (let j = 0; j < tabMur.length; j++) {
-							if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
-								newfood = false;
-								tabFood[i].x = getRandomInt(0, randInt) * grid;
-								tabFood[i].y = getRandomInt(0, randInt) * grid;
-							}
-						}
-						for (let j = 0; j < tabFood.length; j++) {
-							if (
-								tabFood[i].x == tabFood[j].x &&
-								tabFood[i].y == tabFood[j].y &&
-								i != j
-							) {
-								newfood = false;
-								tabFood[i].x = getRandomInt(0, randInt) * grid;
-								tabFood[i].y = getRandomInt(0, randInt) * grid;
-							}
-						}
-					}while(newfood==false)
+					createFood();
 					var myAudio = document.createElement("audio");
 					myAudio.src = "./sound/bruitMange.mp3";
 					myAudio.play();
