@@ -1,10 +1,12 @@
-import { createMur } from './create.js';
+import { createMur,createFood } from './create.js';
 import { getRandomInt } from './random.js';
 import { addEvent } from './eventListener.js';
 import { moveSnakeLeft, moveSnakeRight, moveSnakeUp, moveSnakeDown, checkCollision } from './snakeFunc.js';
 import { setScore } from './score.js';
 import { snake } from './snake.js';
 import { sprite } from './draw.js';
+import { drawmur }from './draw.js';
+import { drawfood }from './draw.js';
 
 const play = (
 	nbFruits,
@@ -24,6 +26,7 @@ const play = (
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 	var image = document.getElementById("source");
+    var imagemur = document.querySelector("#image-mur");
 	var grid = pixels;
 	snake.dx = grid;
 	var max = 0;
@@ -33,39 +36,9 @@ const play = (
 	var count = 0;
 	var tabFood = [];
 	var tabMur = [];
-	tabMur = createMur(nbMur,tabMur,randInt,grid);
-	//crée une pomme
-	function createFood(index) {
-			var newfood = true;
-			tabFood[index] = {
-				x: getRandomInt(0, randInt) * grid,
-				y: getRandomInt(0, randInt) * grid,
-			};
-			do{
-				newfood = true;
-				for (let j = 0; j < tabMur.length; j++) {
-					if (tabFood[index].x == tabMur[j].x && tabFood[index].y == tabMur[j].y) {
-						newfood = false;
-						tabFood[index].x = getRandomInt(0, randInt) * grid;
-						tabFood[index].y = getRandomInt(0, randInt) * grid;
-					}
-				}
-				for (let j = 0; j < tabFood.length; j++) {
-					if (
-						tabFood[index].x == tabFood[j].x &&
-						tabFood[index].y == tabFood[j].y &&
-						index != j
-						) {
-							newfood = false;
-							tabFood[index].x = getRandomInt(0, randInt) * grid;
-							tabFood[index].y = getRandomInt(0, randInt) * grid;
-						}
-					}
-				}while(newfood==false)
-			}
-	//création de la nourriture selon nbFruits, si il y a deja une pomme ou un mur on recommence
+	createMur(nbMur,tabMur,randInt,grid);
 	for (let i = 0; i < nbFruits; i++) {
-		createFood(i);
+	createFood(i,tabFood,tabMur,randInt,grid);
 	}
 	function snakeOver(snake) {
 		var myAudio1 = document.createElement("audio");
@@ -88,8 +61,10 @@ const play = (
 		high.classList.add("high");
 		score.classList.remove("meilleur");
 		score.classList.add("score");
-		createMur();
-		createFood();
+		createMur(nbMur,tabMur,randInt,grid);
+		for (let i = 0; i < nbFruits; i++) {
+			createFood(i,tabFood,tabMur,randInt,grid);
+		}
 		//met en pause si l'autorespawn n'est pas activer
 		if (!Autorespawn) {
 			paused = true;
@@ -145,25 +120,9 @@ const play = (
 			snake.cells.pop();
 		}
 		// Dessine la nourriture
-
-		for (var i = 0; i < tabFood.length; i++) {
-			context.drawImage(
-				image,
-				0 * 64,
-				3 * 64,
-				64,
-				64,
-				tabFood[i].x,
-				tabFood[i].y,
-				grid,
-				grid
-			);
-		}
-		//dessine les mur tabMur
-		let imagemur = document.querySelector("#image-mur");
-		for (var i = 0; i < tabMur.length; i++) {
-			context.drawImage(imagemur,0,0,640,640,tabMur[i].x, tabMur[i].y, grid - 1, grid - 1);
-		}
+		drawfood(tabFood,context,image,grid);
+		drawmur(tabMur,context,imagemur, grid);
+		
 		// Dessine le serpent
 		
 		function isEmpty(x, y) {
@@ -201,7 +160,8 @@ const play = (
 					score += 1;
 					document.getElementById("scoreNum").innerHTML = score;
 					// 400x400 / 16 = 25 cases
-					createFood(i);
+					createFood(i,tabFood,tabMur,randInt,grid);
+					
 					var myAudio = document.createElement("audio");
 					myAudio.src = "./sound/bruitMange.mp3";
 					myAudio.play();
@@ -260,133 +220,7 @@ const play = (
 					}
 				}
 			}
-			for (
-                var compteur = indexCopy;
-                compteur < snake.cells.length;
-                compteur++
-            ) {
-                // Loop over every snake segment
-                /*console.log(
-                    "index : ",
-                    index,
-                    "x: ",
-                    snake.cells[compteur].x / grid,
-                    "y: ",
-                    snake.cells[compteur].y / grid,
-                    "foodX :",
-                    tabFood[0].x / grid,
-                    "foodY :",
-                    tabFood[0].y / grid
-                );*/
-                var cell = snake.cells[compteur];
-                var segx = cell.x;
-                var segy = cell.y;
-                var tilex = segx * grid;
-                var tiley = segy * grid;
-                // Sprite column and row that gets calculated
-                var tx = 0;
-                var ty = 0;
-                if (compteur == 0) {
-                    // Head; Determine the correct image
-                    if (snake.direction == "down") {
-                        // Up
-                        tx = 3;
-                        ty = 0;
-                    } else if (snake.direction == "right") {
-                        // Right
-                        tx = 4;
-                        ty = 0;
-                    } else if (snake.direction == "up") {
-                        // Down
-                        tx = 4;
-                        ty = 1;
-                    } else if (snake.direction == "left") {
-                        // Left
-                        tx = 3;
-                        ty = 1;
-                    }
-                } else if (compteur == snake.cells.length - 1) {
-                    // Tail; Determine the correct image
-                    var presseg = snake.cells[compteur - 1]; // Prev segment
-                    if (presseg.y < segy) {
-                        // Up
-                        tx = 3;
-                        ty = 2;
-                    } else if (presseg.x > segx) {
-                        // Right
-                        tx = 4;
-                        ty = 2;
-                    } else if (presseg.y > segy) {
-                        // Down
-                        tx = 4;
-                        ty = 3;
-                    } else if (presseg.x < segx) {
-                        // Left
-                        tx = 3;
-                        ty = 3;
-                    }
-                } else {
-                    // Body; Determine the correct image
-                    var presseg = snake.cells[compteur - 1]; // Previous segment
-                    var nextseg = snake.cells[compteur + 1]; // Next segmentconte
-                    if (
-                        (presseg.x < segx && nextseg.x > segx) ||
-                        (nextseg.x < segx && presseg.x > segx)
-                    ) {
-                        // Horizontal Left-Right
-                        tx = 1;
-                        ty = 0;
-                    } else if (
-                        (presseg.x < segx && nextseg.y > segy) ||
-                        (nextseg.x < segx && presseg.y > segy)
-                    ) {
-                        // Angle Left-Down
-                        tx = 2;
-                        ty = 0;
-                    } else if (
-                        (presseg.y < segy && nextseg.y > segy) ||
-                        (nextseg.y < segy && presseg.y > segy)
-                    ) {
-                        // Vertical Up-Down
-                        tx = 2;
-                        ty = 1;
-                    } else if (
-                        (presseg.y < segy && nextseg.x < segx) ||
-                        (nextseg.y < segy && presseg.x < segx)
-                    ) {
-                        // Angle Top-Left
-                        tx = 2;
-                        ty = 2;
-                    } else if (
-                        (presseg.x > segx && nextseg.y < segy) ||
-                        (nextseg.x > segx && presseg.y < segy)
-                    ) {
-                        // Angle Right-Up
-                        tx = 0;
-                        ty = 1;
-                    } else if (
-                        (presseg.y > segy && nextseg.x > segx) ||
-                        (nextseg.y > segy && presseg.x > segx)
-                    ) {
-                        // Angle Down-Right
-                        tx = 0;
-                        ty = 0;
-                    }
-                }
-        
-                // Draw the image of the snake part
-                context.drawImage(
-                    image,
-                    tx * 64,
-                    ty * 64,
-                    64,
-                    64,
-                    snake.cells[compteur].x,
-                    snake.cells[compteur].y,
-                    grid,
-                    grid
-                );
-            }
+			sprite(snake,context,indexCopy,image,grid);
 		});
 		function snakeIa() {
 			var foodX = tabFood[0].x;
@@ -464,8 +298,21 @@ const play = (
 
 	// let loader = document.querySelector("#loader");
 	let pauseBtn = document.querySelector("#pause");
-
 	var paused = false;
+	document.addEventListener("keydown", function (e) {
+        // left arrow key
+        if (e.key == "Enter"||e.key == " "){
+            if (!paused) {
+                paused = true;
+                pauseBtn.innerHTML = "Play";
+                timestamp = Infinity;
+            } else {
+                paused = false;
+                pauseBtn.innerHTML = "Pause";
+                timestamp = timingstamp;
+            }
+        }
+	});
 	pauseBtn.addEventListener("click", () => {
 		if (!paused) {
 			paused = true;
@@ -483,7 +330,6 @@ const play = (
 		console.log(window.location);
 		window.location = window.location;
 	});
-
 	requestAnimationFrame(loop);
 };
 

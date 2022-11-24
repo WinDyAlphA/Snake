@@ -1,47 +1,46 @@
 import { getRandomInt } from './random.js';
 
-function createMur (nbMurParam,tabMurParam,randInt,grid) {
-    for (let i = 0; i < nbMurParam; i++) {
+function createMur (nbMur,tabMur,randInt,grid) {
+    for (let i = 0; i < nbMur; i++) {
         var x = getRandomInt(0, randInt) * grid;
         var y = getRandomInt(0, randInt) * grid;
         while (x > 130 && x < 300 && y > 100 && y < 210) {
             x = getRandomInt(0, randInt) * grid;
             y = getRandomInt(0, randInt) * grid;
         }
-        tabMurParam[i] = {
+        tabMur[i] = {
             x: x,
             y: y,
         };
     }
-    return tabMurParam;
 };
-function createFood(index,tabFood,randInt,grid,tabMur) {
-    var newfood = true;
-    console.log(tabFood[0],index);
-    tabFood[index] = {
-        x: getRandomInt(0, randInt) * grid,
-        y: getRandomInt(0, randInt) * grid,
-    };
-    do{
-        newfood = true;
-        for (let j = 0; j < tabMur.length; j++) {
-            if (tabFood[index].x == tabMur[j].x && tabFood[index].y == tabMur[j].y) {
-                newfood = false;
-                tabFood[index].x = getRandomInt(0, randInt) * grid;
-                tabFood[index].y = getRandomInt(0, randInt) * grid;
-            }
-        }
-        for (let j = 0; j < tabFood.length; j++) {
-            if (
-                tabFood[index].x == tabFood[j].x &&
-                tabFood[index].y == tabFood[j].y &&
-                index != j
-                ) {
+function createFood(i,tabFood,tabMur,randInt,grid){
+    var newfood;
+        tabFood[i] = {
+            x: getRandomInt(0, randInt) * grid,
+            y: getRandomInt(0, randInt) * grid,
+        };
+        do{
+            newfood = true;
+            for (let j = 0; j < tabMur.length; j++) {
+                if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
                     newfood = false;
-                    tabFood[index].x = getRandomInt(0, randInt) * grid;
-                    tabFood[index].y = getRandomInt(0, randInt) * grid;
+                    tabFood[i].x = getRandomInt(0, randInt) * grid;
+                    tabFood[i].y = getRandomInt(0, randInt) * grid;
                 }
             }
-        }while(newfood==false)
-    }
+            for (let j = 0; j < tabFood.length; j++) {
+                if (
+                    tabFood[i].x == tabFood[j].x &&
+                    tabFood[i].y == tabFood[j].y &&
+                    i != j
+                    ){
+                        newfood = false;
+                        tabFood[i].x = getRandomInt(0, randInt) * grid;
+                        tabFood[i].y = getRandomInt(0, randInt) * grid;
+                }
+            }
+            }while(newfood==false)
+        }
+export { createFood };
 export { createMur };

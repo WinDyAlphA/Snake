@@ -51,20 +51,10 @@ function addEvent(snakeParam,grid) {
         xDown = null;
         yDown = null;
     }
+    let pauseBtn = document.querySelector("#pause");
+	var paused = false;
     document.addEventListener("keydown", function (e) {
         // left arrow key
-        if (e.key == "Enter"||e.key == " "){
-            console.log("play");
-            if (!paused) {
-                paused = true;
-                pauseBtn.innerHTML = "Play";
-                timestamp = Infinity;
-            } else {
-                paused = false;
-                pauseBtn.innerHTML = "Pause";
-                timestamp = timingstamp;
-            }
-        }
         if (e.key == "ArrowLeft" && snakeParam.dx === 0) {
             snakeParam.dx = -grid;
             snakeParam.dy = 0;
