@@ -26,7 +26,7 @@ window.onload = function () {
 	async function test(){
 	for (var i =1; i<19;i++){
 	createMotion(i);
-	await sleep(200);
+	await sleep(Math.floor(Math.random() * (150 - 0)) + 0);
 	}}
 	test();
 	setTimeout(() => {
@@ -79,7 +79,6 @@ window.onload = function () {
 		mur,
 		pommes,
 		vitesse,
-		couleur,
 		ia,
 		Autorespawn,
 		difficulte,
@@ -88,7 +87,6 @@ window.onload = function () {
 		document.cookie = "mur=" + mur + ";";
 		document.cookie = "pommes=" + pommes + ";";
 		document.cookie = "vitesse=" + vitesse + ";";
-		document.cookie = "couleur=" + couleur + ";";
 		document.cookie = "ia=" + ia + ";";
 		document.cookie = "Autorespawn=" + Autorespawn + ";";
 		document.cookie = "difficulte=" + difficulte + ";";
@@ -122,9 +120,6 @@ window.onload = function () {
 		var cookie_vitesse = cookies
 			.find((row) => row.includes("vitesse="))
 			?.split("=")[1];
-		var cookie_couleur = cookies
-			.find((row) => row.includes("couleur="))
-			?.split("=")[1];
 		var cookie_ia = cookies.find((row) => row.includes("ia="))?.split("=")[1];
 		var cookie_Autorespawn = cookies
 			.find((row) => row.includes("Autorespawn="))
@@ -140,7 +135,6 @@ window.onload = function () {
 			mur: cookie_mur,
 			pommes: cookie_pommes,
 			vitesse: cookie_vitesse,
-			couleur: cookie_couleur,
 			ia: cookie_ia,
 			Autorespawn: cookie_Autorespawn,
 			difficulte: cookie_difficulte,
@@ -249,7 +243,7 @@ window.onload = function () {
 	var body = document.querySelector("#body");
 	body.classList.remove('loader');
 	body.classList.add('test');
-	}, 4400);
+	}, 1600);
 };
 
 const play = (
