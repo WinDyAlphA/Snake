@@ -321,7 +321,7 @@ const play = (
 					if (
 						tabFood[index].x == tabFood[j].x &&
 						tabFood[index].y == tabFood[j].y &&
-						i != j
+						index != j
 						) {
 							newfood = false;
 							tabFood[index].x = getRandomInt(0, randInt) * grid;
@@ -332,7 +332,7 @@ const play = (
 			}
 	//création de la nourriture selon nbFruits, si il y a deja une pomme ou un mur on recommence
 	for (let i = 0; i < nbFruits; i++) {
-		createFood();
+		createFood(i);
 	}
 	function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min)) + min;
@@ -486,7 +486,7 @@ const play = (
 					score += 1;
 					document.getElementById("scoreNum").innerHTML = score;
 					// 400x400 / 16 = 25 cases
-					createFood();
+					createFood(i);
 					var myAudio = document.createElement("audio");
 					myAudio.src = "./sound/bruitMange.mp3";
 					myAudio.play();
