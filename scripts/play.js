@@ -1,6 +1,6 @@
 import { createMur,createFood } from './create.js';
 import { getRandomInt } from './random.js';
-import { addEvent } from './eventListener.js';
+import { addEvent } from './event.js';
 import { moveSnakeLeft, moveSnakeRight, moveSnakeUp, moveSnakeDown, checkCollision } from './snakeFunc.js';
 import { setScore } from './score.js';
 import { snake } from './snake.js';
@@ -275,16 +275,16 @@ const play = (
 		if (ia == true) {
 			var result = snakeIa();
 			if (result == "up") {
-				moveSnakeUp(snake);
+				moveSnakeUp(snake,grid);
 			}
 			if (result == "down") {
-				moveSnakeDown(snake);
+				moveSnakeDown(snake,grid);
 			}
 			if (result == "left") {
-				moveSnakeLeft(snake);
+				moveSnakeLeft(snake,grid);
 			}
 			if (result == "right") {
-				moveSnakeRight(snake);
+				moveSnakeRight(snake,grid);
 			}
 		}
 		//si le score dépasse le highscore alors le highscore disparait

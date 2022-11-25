@@ -14,7 +14,6 @@ function save(
     document.cookie = "Autorespawn=" + Autorespawn + ";";
     document.cookie = "difficulte=" + difficulte + ";";
     document.cookie = "taille=" + taille + ";";
-    console.log(document.cookie);
 }
 function getCookies() {
     var cookies = document.cookie.split(";");
@@ -48,8 +47,6 @@ function getCookies() {
 }
 function setCookies() {
     var cookies = getCookies();
-    console.log(cookies);
-    console.log(cookies.mur);
     if (cookies.mur == "true") {
         mur.checked = true;
     }

@@ -1,16 +1,16 @@
-function moveSnakeLeft(snake) {
+function moveSnakeLeft(snake,grid) {
     snake.dx = -grid;
     snake.dy = 0;
 }
-function moveSnakeRight(snake) {
+function moveSnakeRight(snake,grid) {
     snake.dx = grid;
     snake.dy = 0;
 }
-function moveSnakeUp(snake) {
+function moveSnakeUp(snake,grid) {
     snake.dy = -grid;
     snake.dx = 0;
 }
-function moveSnakeDown(snake) {
+function moveSnakeDown(snake,grid) {
     snake.dy = grid;
     snake.dx = 0;
 }
