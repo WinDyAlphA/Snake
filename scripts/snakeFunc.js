@@ -15,11 +15,13 @@ function moveSnakeDown(snake,grid) {
     snake.dx = 0;
 }
 
-function checkCollision(snake,canvas,grid,cell,i) {
-    if (
-        //condition pour que le bords de l'ecran soit solide +lui meme
-        (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) ||
-        snake.y < 0 ||
+function checksnake(snake,canvas,grid,cell,i) {
+    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) 
+    return true;
+    else return false;
+}
+function checkbordure(snake,canvas,grid,cell,i) {
+    if (snake.y < 0 ||
         snake.x < 0 ||
         (snake.cells[0].x == 0 &&
             snake.cells[0 + 1].x == canvas.width - grid) ||
@@ -30,4 +32,4 @@ function checkCollision(snake,canvas,grid,cell,i) {
     else return false;
 }
 
-export { moveSnakeLeft, moveSnakeRight, moveSnakeUp, moveSnakeDown, checkCollision };
+export { moveSnakeLeft, moveSnakeRight, moveSnakeUp, moveSnakeDown, checkbordure,checksnake };
