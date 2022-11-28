@@ -26,8 +26,12 @@ const play = (
   Autorespawn
 ) => {
   var nbCells = document.querySelector("#taille");
-  timingstamp = 10 - timingstamp;
-  console.log(pixels);
+  if (timingstamp >= 5) {
+    timingstamp = 10 - timingstamp;
+  } else {
+    timingstamp = Math.pow(2, 7 - timingstamp);
+  }
+  console.log(timingstamp);
   page.innerHTML =
     '<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-sprite.png"width="320" height="256"><img id="image-mur" style="display:none;" src="./image/Mur.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
   var canvas = document.getElementById("zone");
@@ -185,8 +189,8 @@ const play = (
             document.getElementById("scoreNum").innerHTML = score;
           }
           if (tabFood[i].type == "teleport") {
-            snake.x = 0;
-            snake.y = 0;
+            snake.x = getRandomInt(0, randInt) * grid;
+            snake.y = getRandomInt(0, randInt) * grid;
           }
           if (tabFood[i].type == "inverted") {
             var choix = Math.floor(Math.random() * 2);
