@@ -13,25 +13,26 @@ function createMur(nbMur, tabMur, randInt, grid) {
     };
   }
 }
-function createFood(i, tabFood, tabMur, randInt, grid) {
+function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
   var newfood;
   tabFood[i] = {
     x: getRandomInt(0, randInt) * grid,
     y: getRandomInt(0, randInt) * grid,
     type: "normal",
   };
-  var rareté = getRandomInt(0, 100);
-  console.log(rareté);
-  if (rareté % 10 == 1) {
-    tabFood[i].type = "inverted";
+  if (typepomme) {
+    var rareté = getRandomInt(0, 100);
+    console.log(rareté);
+    if (rareté % 10 == 1) {
+      tabFood[i].type = "inverted";
+    }
+    if (rareté % 25 == 2) {
+      tabFood[i].type = "invisible";
+    }
+    if (rareté % 100 == 0) {
+      tabFood[i].type = "teleport";
+    }
   }
-  if (rareté % 25 == 2) {
-    tabFood[i].type = "invisible";
-  }
-  if (rareté % 100 == 0) {
-    tabFood[i].type = "teleport";
-  }
-
   do {
     newfood = true;
     for (let j = 0; j < tabMur.length; j++) {

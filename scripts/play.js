@@ -23,7 +23,8 @@ const play = (
   pixels,
   randInt,
   difficulte,
-  Autorespawn
+  Autorespawn,
+  typepomme
 ) => {
   var nbCells = document.querySelector("#taille");
   if (timingstamp >= 5) {
@@ -33,7 +34,7 @@ const play = (
   }
   console.log(timingstamp);
   page.innerHTML =
-    '<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-sprite.png"width="320" height="256"><img id="image-mur" style="display:none;" src="./image/Mur.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+    '<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-sprite.png"width="320" height="256"><img id="inverted" style="display:none;" src="./image/snake-sprite-inverted.png"width="320" height="256"><img id="image-mur" style="display:none;" src="./image/Mur.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
   var canvas = document.getElementById("zone");
   var context = canvas.getContext("2d");
   var image = document.querySelector("#source");
@@ -55,7 +56,7 @@ const play = (
   var tabMur = [];
   createMur(nbMur, tabMur, randInt, grid);
   for (let i = 0; i < nbFruits; i++) {
-    createFood(i, tabFood, tabMur, randInt, grid);
+    createFood(i, tabFood, tabMur, randInt, grid, typepomme);
   }
   function snakeOver(snake) {
     var myAudio1 = document.createElement("audio");
@@ -80,7 +81,7 @@ const play = (
     score.classList.add("score");
     createMur(nbMur, tabMur, randInt, grid);
     for (let i = 0; i < nbFruits; i++) {
-      createFood(i, tabFood, tabMur, randInt, grid);
+      createFood(i, tabFood, tabMur, randInt, grid, typepomme);
     }
     //met en pause si l'autorespawn n'est pas activer
     if (!Autorespawn) {
@@ -180,10 +181,20 @@ const play = (
           }
           if (tabFood[i].type == "invisible") {
             invisible = true;
+            image = document.getElementById("inverted");
             setTimeout(() => {
-              console.log("plus invisible");
-              invisible = false;
-            }, 5000);
+              var i = 0;
+              let t = setInterval(() => {
+                i++;
+                if (i % 2 == 0) image = document.getElementById("inverted");
+                else image = document.getElementById("source");
+              }, 200);
+              setTimeout(() => {
+                image = document.getElementById("source");
+                invisible = false;
+                clearInterval(t);
+              }, 1000);
+            }, 3000);
             snake.maxCells--;
             score -= 1;
             document.getElementById("scoreNum").innerHTML = score;
@@ -216,7 +227,7 @@ const play = (
             score += 1;
             document.getElementById("scoreNum").innerHTML = score;
           }
-          createFood(i, tabFood, tabMur, randInt, grid);
+          createFood(i, tabFood, tabMur, randInt, grid, typepomme);
 
           var myAudio = document.createElement("audio");
           myAudio.src = "./sound/bruitMange.mp3";
@@ -224,7 +235,7 @@ const play = (
         }
       }
       for (i = 0; i < tabMur.length; i++) {
-        if (cell.x == tabMur[i].x && cell.y == tabMur[i].y) {
+        if (cell.x == tabMur[i].x && cell.y == tabMur[i].y && !invisible) {
           if (score > max) {
             max = score;
           }
