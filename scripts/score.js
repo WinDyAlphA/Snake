@@ -4,14 +4,14 @@ function setScore() {
         let scorevalue = document.querySelector("#scoreNum");
         if (
             parseInt(scorevalue.innerHTML, 10) > parseInt(highvalue.innerHTML, 10)
-        ) {
+            ) {
             let high = document.querySelector("#high");
             let score = document.querySelector("#score");
             high.classList.add("transition");
             setTimeout(() => {
                 if (
                     parseInt(scorevalue.innerHTML, 10) >
-                    parseInt(highvalue.innerHTML, 10)
+                    parseInt(highvalue.innerHTML, 10)&&document.querySelector("#high").className != "off"
                 ) {
                     high.classList.add("visibility");
                     score.classList.add("transition2");

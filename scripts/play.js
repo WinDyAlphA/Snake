@@ -22,7 +22,7 @@ const play = (
 	timingstamp = 10 - timingstamp;
 	console.log(pixels);
 	page.innerHTML =
-	'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-graphics.png"width="320" height="256"><img id="image-mur" style="display:none;" src="https://preview.redd.it/r28nmgaqhyy11.png?width=640&format=png&auto=webp&s=03e773a6929f4380987c40f5c4e922fe8c13ea2a"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+	'<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-graphics.png"width="320" height="256"><img id="image-mur" style="display:none;" src="./image/Mur.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
 	var canvas = document.getElementById("zone");
 	var context = canvas.getContext("2d");
 	var image = document.getElementById("source");
