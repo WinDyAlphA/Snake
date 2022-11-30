@@ -15,12 +15,12 @@ function moveSnakeDown(snake,grid) {
     snake.dx = 0;
 }
 
-function checksnake(snake,canvas,grid,cell,i) {
+function checksnake(snake,cell,i) {
     if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) 
     return true;
     else return false;
 }
-function checkbordure(snake,canvas,grid,cell,i) {
+function checkbordure(snake,canvas,grid) {
     if (snake.y < 0 ||
         snake.x < 0 ||
         (snake.cells[0].x == 0 &&

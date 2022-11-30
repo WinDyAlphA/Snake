@@ -112,10 +112,8 @@ function sprite(snake, context, indexCopy, image, grid) {
 function drawfood(tabFood, context, image, grid) {
   for (var i = 0; i < tabFood.length; i++) {
     var tx, ty;
-    if (tabFood[i].type == "normal") {
-      tx = 0;
-      ty = 3;
-    }
+    tx = 0;
+    ty = 3;
     if (tabFood[i].type == "invisible") {
       tx = 1;
       ty = 3;
