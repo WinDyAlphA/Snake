@@ -6,7 +6,8 @@ function save(
   Autorespawn,
   difficulte,
   taille,
-  typepomme
+  typepomme,
+  niveau
 ) {
   document.cookie = "mur=" + mur + ";";
   document.cookie = "pommes=" + pommes + ";";
@@ -16,6 +17,7 @@ function save(
   document.cookie = "difficulte=" + difficulte + ";";
   document.cookie = "taille=" + taille + ";";
   document.cookie = "typepomme=" + typepomme + ";";
+  document.cookie = "niveau=" + niveau + ";";
 }
 function getCookies() {
   var cookies = document.cookie.split(";");
@@ -39,6 +41,9 @@ function getCookies() {
   var cookie_typepomme = cookies
     .find((row) => row.includes("typepomme="))
     ?.split("=")[1];
+  var cookie_niveau = cookies
+    .find((row) => row.includes("niveau="))
+    ?.split("=")[1];
   //retrun object
   return {
     mur: cookie_mur,
@@ -49,9 +54,10 @@ function getCookies() {
     difficulte: cookie_difficulte,
     taille: cookie_taille,
     typepomme: cookie_typepomme,
+    niveau: cookie_niveau,
   };
 }
-function setCookies() {
+function setCookies(niveau) {
   var cookies = getCookies();
   if (cookies.mur == "true") {
     mur.checked = true;
@@ -67,6 +73,7 @@ function setCookies() {
   if (cookies.typepomme == "true") {
     typepomme.checked = true;
   }
+  niveau.value = cookies.niveau;
   difficulte.value = cookies.difficulte;
   taille.value = cookies.taille;
   affvitesse.innerHTML = parseInt(vitesse.value / 10 + 1);
@@ -91,8 +98,8 @@ function setCookies() {
 function emptyCookies() {
   if (document.cookie.length < 3) {
     //on met les valeurs par defaut
-    save("true", 22, 49, "false", "true", 9, 10, "true");
-    setCookies();
+    save("true", 22, 49, "false", "true", 9, 10, "true", "");
+    setCookies(niveau);
   }
 }
 

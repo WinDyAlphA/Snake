@@ -1,6 +1,6 @@
 import { save, emptyCookies, setCookies } from "./cookies.js";
 import { play } from "./play.js";
-import {fetchNiveaumenu} from "./Json.js";
+import { fetchNiveaumenu } from "./Json.js";
 var page = document.querySelector("#page");
 
 window.onload = function () {
@@ -32,12 +32,8 @@ window.onload = function () {
   }
   test();
   setTimeout(() => {
-<<<<<<< HEAD
     page.innerHTML =
-      '<div id="parametre"><div><label for="niveau-select">Choisie un niveau:</label><select name="pets" id="niveau-select"><option value="">Aucun</option><option value="Niveau1">Niveau 1</option><option value="Niveau2">Niveau 2</option><option value="Niveau3">Niveau 3</option><option value="Niveau4">Niveau 4</option></select></div><div><Label>Activer Bordure</Label><input id="mur" type="checkbox"></div><div><Label>Activer Pommes Spécial</Label><input id="typepomme" type="checkbox"></div><div><Label>Auto-respawn</Label><input id="Autorespawn" type="checkbox"></div><div><Label>Activer IA</Label><input id="ia" type="checkbox"></div><div><Label>Choisi la vitesse :&nbsp<span id="affvitesse">4</span></Label><input id="vitesse" type="range" min="1" max="99" step="1" value="1" class="slider"></div><div><Label>Choisi le nombre de pomme :&nbsp<span id="affpomme">1</span></Label><input id="nbPomme" type="range" min="1" max="99" step="1" value="1" class="slider"></div><div><Label>Choisi la taille :&nbsp<span id="afftaille">2</span></Label><input id="taille" type="range" min="1" max="39" step="1" value="15" class="slider"></div><div><Label>Choisi la difficulté :&nbsp<span id="affdifficulte">Medium</span></Label><input id="difficulte" type="range" min="0" max="49" step="1" value="25" class="slider"></div></div><div id="play">PLAY</div></div>';
-=======
-    page.innerHTML ='<div id="rules"> <div class="ruleExplain"> <img src="image/apple.png" alt="apple" width="50px" height="50px"> <p>Pomme naturelle, vous fait grandir.</p> </div> <div class="ruleExplain"> <img src="image/apple_inverted.png" alt="apple" width="50px" height="50px"> <p>Pomme inverse, vous envoie dans une direction au hasard, ne vous fait pas grandir</p> </div> <div class="ruleExplain"> <img src="image/apple_aec.png" alt="apple" width="50px" height="50px"> <p>Pomme arc-en-ciel, vous devenez invisble et pouvez passer a travers les obstacles et vous-même</p> </div> <div class="ruleExplain"> <img src="image/apple_glitch.png" alt="apple" width="50px" height="50px"> <p>Pomme bug, vous téléporte a un endroit alétoire, attention au murs!</p> </div> </div> <div id="parametre"> <div> <div> <Label>Activer Bordure </Label> <input id="mur" type="checkbox"> </div> <div> <Label>Activer Pommes Spécial </Label> <input id="typepomme" type="checkbox"> </div> <div> <Label>Auto-respawn </Label> <input id="Autorespawn" type="checkbox"> </div> <div> <Label>Activer IA </Label> <input id="ia" type="checkbox"> </div> <div> <Label>Choisi la vitesse :  <span id="affvitesse">4 </span> </Label> <input id="vitesse" type="range" min="1" max="99" step="1" value="1" class="slider"> </div> <div> <Label>Choisi le nombre de pomme :  <span id="affpomme">1 </span> </Label> <input id="nbPomme" type="range" min="1" max="99" step="1" value="1" class="slider"> </div> <div> <Label>Choisi la taille :  <span id="afftaille">2 </span> </Label> <input id="taille" type="range" min="1" max="39" step="1" value="15" class="slider"> </div> <div> <Label>Choisi la difficulté :  <span id="affdifficulte">Medium </span> </Label> <input id="difficulte" type="range" min="0" max="49" step="1" value="25" class="slider"> </div> </div> <div id="playContainer"> <div id="play">PLAY</div> </div> </div>';
->>>>>>> f95ef71712c9ea63d93f1f6204a22bfaee03250e
+      '<div id="rules"> <div class="ruleExplain"> <img src="image/apple.png" alt="apple" width="50px" height="50px"> <p>Pomme naturelle, vous fait grandir.</p> </div> <div class="ruleExplain"> <img src="image/apple_inverted.png" alt="apple" width="50px" height="50px"> <p>Pomme inverse, vous envoie dans une direction au hasard, ne vous fait pas grandir</p> </div> <div class="ruleExplain"> <img src="image/apple_aec.png" alt="apple" width="50px" height="50px"> <p>Pomme arc-en-ciel, vous devenez invisble et pouvez passer a travers les obstacles et vous-même</p> </div> <div class="ruleExplain"> <img src="image/apple_glitch.png" alt="apple" width="50px" height="50px"> <p>Pomme bug, vous téléporte a un endroit alétoire, attention au murs!</p> </div> </div><div id="parametre"><div><label for="niveau-select">Choisie un niveau:</label><select name="pets" id="niveau-select"><option value="">Aucun</option><option value="Niveau1">Niveau 1</option><option value="Niveau2">Niveau 2</option><option value="Niveau3">Niveau 3</option><option value="Niveau4">Niveau 4</option></select></div><div><Label>Activer Bordure</Label><input id="mur" type="checkbox"></div><div><Label>Activer Pommes Spécial</Label><input id="typepomme" type="checkbox"></div><div><Label>Auto-respawn</Label><input id="Autorespawn" type="checkbox"></div><div><Label>Activer IA</Label><input id="ia" type="checkbox"></div><div><Label>Choisi la vitesse :&nbsp<span id="affvitesse">4</span></Label><input id="vitesse" type="range" min="1" max="99" step="1" value="1" class="slider"></div><div><Label>Choisi le nombre de pomme :&nbsp<span id="affpomme">1</span></Label><input id="nbPomme" type="range" min="1" max="99" step="1" value="1" class="slider"></div><div><Label>Choisi la taille :&nbsp<span id="afftaille">2</span></Label><input id="taille" type="range" min="1" max="39" step="1" value="15" class="slider"></div><div><Label>Choisi la difficulté :&nbsp<span id="affdifficulte">Medium</span></Label><input id="difficulte" type="range" min="0" max="49" step="1" value="25" class="slider"></div></div><div id="play">PLAY</div></div>';
     var nbCells = document.querySelector("#taille");
     var nbPomme = document.querySelector("#nbPomme");
     var typepomme = document.querySelector("#typepomme");
@@ -52,7 +48,19 @@ window.onload = function () {
     let compteur = 0;
     var niveau = document.getElementById("niveau-select");
     niveau.oninput = function () {
-      fetchNiveaumenu(niveau.value,mur,typepomme,vitesse,nbPomme,taille,difficulte) 
+      fetchNiveaumenu(
+        niveau.value,
+        mur,
+        typepomme,
+        vitesse,
+        nbPomme,
+        taille,
+        difficulte,
+        affvitesse,
+        affpomme,
+        afftaille,
+        affdifficulte
+      );
     };
     var affvitesse = document.getElementById("affvitesse");
     vitesse.oninput = function () {
@@ -84,7 +92,7 @@ window.onload = function () {
         affdifficulte.innerHTML = "Expert";
       }
     };
-    
+
     //enregistrer les parametres dans un plusieur cookies
 
     //recuperer les parametres dans les cookies
@@ -94,7 +102,7 @@ window.onload = function () {
     //modifier le html en fonction des cookies
 
     emptyCookies();
-    setCookies();
+    setCookies(niveau);
     document.querySelector("#play").addEventListener("click", (e) => {
       save(
         mur.checked,
@@ -104,9 +112,9 @@ window.onload = function () {
         Autorespawn.checked,
         difficulte.value,
         taille.value,
-        typepomme.checked
+        typepomme.checked,
+        niveau.value
       );
-      console.log(nbPomme.value);
       if (Autorespawn.checked) {
         Autorespawn = true;
       } else {

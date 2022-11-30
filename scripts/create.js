@@ -22,7 +22,6 @@ function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
   };
   if (typepomme) {
     var rareté = getRandomInt(0, 100);
-    console.log(rareté);
     if (rareté % 10 == 1) {
       tabFood[i].type = "inverted";
     }
