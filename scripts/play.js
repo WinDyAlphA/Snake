@@ -300,6 +300,27 @@ const play = (
       }
       sprite(snake, context, indexCopy, image, grid);
     });
+    function gameToArray() {
+      //creer un tableau de 2 dimensions de taille canvas.width/grid
+      var tab = new Array(canvas.width / grid);
+      for (var i = 0; i < tab.length; i++) {
+        tab[i] = new Array(canvas.height / grid);
+      }
+      //remplir le tableau avec la postion des murs represente par "MUR"
+      for (var i = 0; i < tabMur.length; i++) {
+        tab[tabMur[i].x / grid][tabMur[i].y / grid] = "MUR";
+      }
+      //remplir le tableau avec la postion des pommes represente par "POMME"
+      for (var i = 0; i < tabFood.length; i++) {
+        tab[tabFood[i].x / grid][tabFood[i].y / grid] = "POMME";
+      }
+      //remplir le tableau avec la postion du serpent represente par "SERPENT"
+      for (var i = 0; i < snake.cells.length; i++) {
+        tab[snake.cells[i].x / grid][snake.cells[i].y / grid] = "SERPENT";
+      }
+      return tab;
+    }
+    console.log(gameToArray());
     function snakeIa() {
       var foodX = tabFood[0].x;
       var foodY = tabFood[0].y;
