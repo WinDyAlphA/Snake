@@ -1,3 +1,5 @@
+import {createFood,createMur} from "./create.js";
+
 function fetchNiveaumenu(
   niveau,
   mur,
@@ -46,7 +48,7 @@ function fetchNiveaumenu(
       });
   }
 }
-function fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels) {
+function fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,randInt,grid) {
   var url = "http://127.0.0.1:5500/Projet JS/Snake/Json/" + niveau + ".json";
   fetch(url)
     .then(function (response) {
@@ -59,16 +61,10 @@ function fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels) {
     .then(function (data) {
       nbFruits = data.food.length;
       for (var i = 0; i < data.food.length; i++) {
-        tabFood[i] = {
-          x: data.food[i][0] * pixels,
-          y: data.food[i][1] * pixels,
-        };
+        createFood(i, tabFood, tabMur, randInt, grid, typepomme);
       }
       for (var i = 0; i < data.walls.length; i++) {
-        tabMur[i] = {
-          x: data.walls[i][0] * pixels,
-          y: data.walls[i][1] * pixels,
-        };
+        createMur(i, tabMur, randInt, grid);
       }
       for (var i = 0; i < data.snake.length; i++) {
         if (i == 0) {

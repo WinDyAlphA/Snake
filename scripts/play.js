@@ -35,7 +35,7 @@ const play = (
     timingstamp = Math.pow(2, 7 - timingstamp);
   }
   page.innerHTML =
-    '<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-sprite.png"width="320" height="256"><img id="inverted" style="display:none;" src="./image/snake-sprite-inverted.png"width="320" height="256"><img id="image-mur" style="display:none;" src="./image/Mur.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
+    '<div id="affichage"><div id="score" class="score">Score :&nbsp<span id="scoreNum">0</span></div><div id="high" class="high">High Score :&nbsp<span id="highNum">0</span></div></div><canvas id="zone" width="400" height="400"></canvas><img id="source" style="display:none;" src="./image/snake-sprite2.png"width="320" height="256"><img id="inverted" style="display:none;" src="./image/snake-sprite2-inverted.png"width="320" height="256"><img id="image-mur" style="display:none;" src="./image/Mur.png"width="320" height="256"><div id="BTN-jouer"><button id="pause">Pause</button><button id="return">Retour</button></div>';
   // prend les élément nécessaire
   var canvas = document.getElementById("zone");
   var context = canvas.getContext("2d");
@@ -58,12 +58,14 @@ const play = (
   var tabMur = [];
   let invi;
   if (niveau == "") {
-    createMur(nbMur, tabMur, randInt, grid);
+    for (let i = 0; i < nbMur; i++) {
+      createMur(i, tabMur, randInt, grid);
+    }
     for (let i = 0; i < nbFruits; i++) {
       createFood(i, tabFood, tabMur, randInt, grid, typepomme);
     }
   } else {
-    fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels);
+    fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,randInt,grid);
     nbFruits = tabFood.length;
   }
   function snakeOver(snake) {
@@ -96,7 +98,7 @@ const play = (
         createFood(i, tabFood, tabMur, randInt, grid, typepomme);
       }
     } else {
-      fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels);
+      fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,randInt,grid);
     }
     //met en pause si l'autorespawn n'est pas activer
     if (!Autorespawn) {
@@ -189,10 +191,9 @@ const play = (
       // le serpent mange la nourriture
       for (var i = 0; i < tabFood.length; i++) {
         if (cell.x === tabFood[i].x && cell.y === tabFood[i].y) {
+          console.log(tabFood[i].type);
           if (tabFood[i].type == "normal") {
-            snake.maxCells++;
-            score += 1;
-            document.getElementById("scoreNum").innerHTML = score;
+            console.log("mange");
           }
           if (tabFood[i].type == "invisible") {
             invisible = true;
@@ -211,7 +212,7 @@ const play = (
               }, 1000);
             }, 3000);
             snake.maxCells--;
-            score -= 1;
+            score -= 2;
             document.getElementById("scoreNum").innerHTML = score;
           }
           if (tabFood[i].type == "teleport") {
@@ -238,10 +239,10 @@ const play = (
                 snake.dy = 0;
               }
             }
-            snake.maxCells++;
-            score += 1;
-            document.getElementById("scoreNum").innerHTML = score;
           }
+          snake.maxCells++;
+          score += 1;
+          document.getElementById("scoreNum").innerHTML = score;
           createFood(i, tabFood, tabMur, randInt, grid, typepomme);
 
           var myAudio = document.createElement("audio");
