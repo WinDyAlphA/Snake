@@ -60,3 +60,21 @@ Lorsque le joueur veut modifier les paramètres il peut appuyer sur le bouton re
 ## Niveaux :
 
 On peut aussi choisir un niveau lors du lancement du jeu, les paramètres du niveaux seront stocker dans un fichier .json dans cette forme :
+```json 
+"taille":1,          		//taille du monde
+    "typepomme":"True",	      //Pomme spéciale activer/désactiver
+    "bordure":"True",                    //Activer/désactiver la bordure
+    "vitesse":3,                               //Modifier la vitesse 
+    "walls": [
+        [0,0], [0,7], [1,2], [1,5], [2,9], [3,4],[3,7], [4,1], [5,6], [5,8], [5,9], [6,0],[6,3], [8,8], [8,5], [9,2]
+    ],                                                //Coordonnées des murs dans le monde
+    "food": [
+        [0,3], [1,7], [9,1]
+    ],                                                 //Coordonnées des pommes dans le monde
+    "snake": [
+        [4,4],
+        [4,5],
+        [4,6]
+    ],			            //Coordonnées du serpent au début
+		"direction":"right"                  //premiere direction du serpent
+```
