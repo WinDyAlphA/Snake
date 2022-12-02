@@ -12,7 +12,7 @@ import {
 } from "./snakeFunc.js";
 import { setScore } from "./score.js";
 import { snake } from "./snake.js";
-import { sprite,drawmur,drawfood } from "./draw.js";
+import { sprite,drawmur,drawfood,drawfond } from "./draw.js";
 import { fetchNiveau } from "./Json.js";
 
 const play = (
@@ -92,7 +92,9 @@ const play = (
     score.classList.add("score");
     // Regénére le niveau ou une map aléatoire
     if (niveau == "") {
-      createMur(nbMur, tabMur, randInt, grid);
+      for (let i = 0; i < nbMur; i++) {
+        createMur(i, tabMur, randInt, grid);
+      }
       for (let i = 0; i < nbFruits; i++) {
         createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme);
       }

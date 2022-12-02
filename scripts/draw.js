@@ -156,15 +156,14 @@ function drawmur(tabMur, context, image, grid) {
   }
 }
 function drawfond(context, canvas, grid) {
-  context.fillStyle = "green";
   var taille = canvas.width / grid;
   for (var i = 0; i < taille; i++) {
     for (var j = 0; j < taille; j++) {
       if (j % 2 == i % 2) {
-        context.fillStyle = "green";
+        context.fillStyle = "#A5AD65";
         context.fillRect(i * grid, j * grid, grid, grid);
       } else {
-        context.fillStyle = "limegreen";
+        context.fillStyle = "#A49F6D";
         context.fillRect(i * grid, j * grid, grid, grid);
       }
     }
