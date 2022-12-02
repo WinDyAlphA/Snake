@@ -20,7 +20,7 @@ function createPlacedMur(i, tabMur, grid, x, y) {
     };
   
 }
-//nourriture placé aleatoirement
+//nourriture placé aleatoirement 
 function createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme) {
   var newfood;
   tabFood[i] = {
@@ -28,6 +28,13 @@ function createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme) {
     y: getRandomInt(0, randInt) * grid,
     type: "normal",
   };
+  var Teleport = false;
+  for (var j = 0; j < tabFood.length; j++) {
+    if (tabFood[j].type == "teleport") {
+      Teleport = true;
+      console.log(Teleport);
+    }
+  }
   if (typepomme) {
     var rareté = getRandomInt(0, 100);
     if (rareté % 10 == 1) {
@@ -36,10 +43,13 @@ function createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme) {
     if (rareté % 25 == 2) {
       tabFood[i].type = "invisible";
     }
-    if (rareté % 100 == 0) {
+    if (rareté % 5 == 0 && Teleport == false) {
+      console.log("teleport");
       tabFood[i].type = "teleport";
+      Teleport = true;
     }
   }
+  //Remet une nouvelle position si la pomme est sur le serpent ou une autre pomme ou un mur
   do {
     newfood = true;
     for (let j = 0; j < snake.cells.length; j++) {

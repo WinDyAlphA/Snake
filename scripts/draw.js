@@ -155,6 +155,7 @@ function drawmur(tabMur, context, image, grid) {
     );
   }
 }
+//créer un quadrillage avec deux couleurs
 function drawfond(context, canvas, grid) {
   var taille = canvas.width / grid;
   for (var i = 0; i < taille; i++) {

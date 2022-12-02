@@ -24,6 +24,7 @@ function fetchNiveaumenu(
         }
       })
       .then(function (data) {
+        //affecter les valeurs des sliders et span quand on selectionne un niveau
         if (data.bordure == "True") {
           mur.checked = true;
         } else {
@@ -59,6 +60,7 @@ function fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,
       }
     })
     .then(function (data) {
+      // créer les murs, les fruits et le serpent
       nbFruits = data.food.length;
       for (var i = 0; i < data.food.length; i++) {
         createPlacedFood(i, tabFood, grid, typepomme,data.food[i][0],data.food[i][1]);
@@ -75,6 +77,22 @@ function fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,
           x: data.snake[i][0] * pixels,
           y: data.snake[i][1] * pixels,
         };
+      }
+      if (data.direction == "right") {
+        snake.dx = grid;
+        snake.dy = 0;
+      }
+      if (data.direction == "left") {
+        snake.dx = -grid;
+        snake.dy = 0;
+      }
+      if (data.direction == "up") {
+        snake.dx = 0;
+        snake.dy = -grid;
+      }
+      if (data.direction == "down") {
+        snake.dx = 0;
+        snake.dy = grid;
       }
     })
     .catch(function (err) {

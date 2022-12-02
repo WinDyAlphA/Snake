@@ -56,6 +56,7 @@ const play = (
   var invisible = false;
   var tabMur = [];
   let invi;
+  //créer les murs et les fruits si le niveau est par défaut
   if (niveau == "") {
     for (let i = 0; i < nbMur; i++) {
       createMur(i, tabMur, randInt, grid);
@@ -144,7 +145,6 @@ const play = (
     } else if (snake.x >= canvas.width) {
       snake.x = 0;
     }
-
     var border = boolMur;
 
     //si le serpent sort de l'écran, il réapparait de l'autre côté vertcialement
@@ -155,30 +155,21 @@ const play = (
     if (snake.cells.length > snake.maxCells) {
       snake.cells.pop();
     }
-    // Dessine la nourriture
+    // Dessine la nourriture, les murs et le fond
     
     drawfond(context, canvas, grid);
     drawfood(tabFood, context, image, grid);
     drawmur(tabMur, context, imagemur, grid);
 
-    // Dessine le serpent
-
-    
-
     var indexCopy;
     snake.cells.forEach(function (cell, index) {
       indexCopy = index;
-      //creation d'une inteligence artificielle qui joue asnake et veut recuperer le plus de nourriture possible
+      //creation d'une inteligence artificielle qui joue au snake et veut recuperer le plus de nourriture possible
 
-      // dessine le serpent avec un padding de 1px
       // le serpent mange la nourriture
       for (var i = 0; i < tabFood.length; i++) {
         if (cell.x === tabFood[i].x && cell.y === tabFood[i].y) {
-          console.log(tabFood[i].type);
-          //defferent comportement selon le type de pomme
-          if (tabFood[i].type == "normal") {
-            console.log("mange");
-          }
+          //different comportement selon le type de pomme
           //devient invisible pendant 4 secondes
           if (tabFood[i].type == "invisible") {
             invisible = true;
@@ -256,7 +247,7 @@ const play = (
         if (border == true) {
           if (
             checkbordure(snake, canvas, grid) == true ||
-            (checksnake(snake, cell, i) == true && invisible == false)
+            (checksnake(snake, cell,i) == true && invisible == false)
           ) {
             console.log("bordure");
             if (score > max) {
@@ -280,7 +271,7 @@ const play = (
             snake.y = 0;
           }
           //si la tete du serpent est sur une autre cellule du serpent, le jeu est perdu
-          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+          if (checksnake(snake, cell,i) == true) {
             if (score > max) {
               max = score;
             }
@@ -292,6 +283,7 @@ const play = (
           }
         }
       }
+      //dessine le serpent
       sprite(snake, context, indexCopy, image, grid);
     });
     function gameToArray() {
