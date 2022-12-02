@@ -61,10 +61,10 @@ function fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,
     .then(function (data) {
       nbFruits = data.food.length;
       for (var i = 0; i < data.food.length; i++) {
-        createPlacedFood(i, tabFood, tabMur, randInt, grid, typepomme,data.food[i][0],data.food[i][1]);
+        createPlacedFood(i, tabFood, grid, typepomme,data.food[i][0],data.food[i][1]);
       }
       for (var i = 0; i < data.walls.length; i++) {
-        createPlacedMur(i, tabMur, randInt, grid,data.walls[i][0],data.walls[i][1]);
+        createPlacedMur(i, tabMur, grid,data.walls[i][0],data.walls[i][1]);
       }
       for (var i = 0; i < data.snake.length; i++) {
         if (i == 0) {

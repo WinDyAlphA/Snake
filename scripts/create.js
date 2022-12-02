@@ -1,4 +1,6 @@
 import { getRandomInt } from "./random.js";
+
+//mur aleatoire
 function createMur(i, tabMur, randInt, grid) {
     tabMur[i] = {
         x: getRandomInt(0, randInt) * grid,
@@ -10,13 +12,15 @@ function createMur(i, tabMur, randInt, grid) {
     }
     
 }
-function createPlacedMur(i, tabMur, randInt, grid, x, y) {
+//mur placé
+function createPlacedMur(i, tabMur, grid, x, y) {
   tabMur[i] = {
       x: x*grid,
       y: y*grid,
     };
   
 }
+//nourriture placé aleatoirement
 function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
   var newfood;
   tabFood[i] = {
@@ -58,7 +62,8 @@ function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
     }
   } while (newfood == false);
 }
-function createPlacedFood(i, tabFood, tabMur, randInt, grid, typepomme,x,y) {
+//nourriture placé selon x et y
+function createPlacedFood(i, tabFood, grid, typepomme,x,y) {
   var newfood;
   tabFood[i] = {
     x: x*grid,

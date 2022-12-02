@@ -4,20 +4,20 @@ function addEvent(snakeParam,grid) {
 
     var xDown = null;
     var yDown = null;
-
+    //event pour mobile
     function getTouches(evt) {
         return (
             evt.touches || // browser API
             evt.originalEvent.touches
-        ); // jQuery
+        ); 
     }
-
+    //event pour mobile
     function handleTouchStart(evt) {
         const firstTouch = getTouches(evt)[0];
         xDown = firstTouch.clientX;
         yDown = firstTouch.clientY;
     }
-
+    //event pour mobile
     function handleTouchMove(evt) {
         if (!xDown || !yDown) {
             return;
@@ -53,6 +53,8 @@ function addEvent(snakeParam,grid) {
     }
     let pauseBtn = document.querySelector("#pause");
 	var paused = false;
+
+    //event pour keyboard
     document.addEventListener("keydown", function (e) {
         // left arrow key
         if (e.key == "ArrowLeft" && snakeParam.dx === 0) {

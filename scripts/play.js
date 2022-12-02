@@ -11,9 +11,7 @@ import {
 } from "./snakeFunc.js";
 import { setScore } from "./score.js";
 import { snake } from "./snake.js";
-import { sprite } from "./draw.js";
-import { drawmur } from "./draw.js";
-import { drawfood } from "./draw.js";
+import { sprite,drawmur,drawfood } from "./draw.js";
 import { fetchNiveau } from "./Json.js";
 
 const play = (
@@ -192,9 +190,11 @@ const play = (
       for (var i = 0; i < tabFood.length; i++) {
         if (cell.x === tabFood[i].x && cell.y === tabFood[i].y) {
           console.log(tabFood[i].type);
+          //defferent comportement selon le type de pomme
           if (tabFood[i].type == "normal") {
             console.log("mange");
           }
+          //devient invisible pendant 4 secondes
           if (tabFood[i].type == "invisible") {
             invisible = true;
             image = document.getElementById("inverted");
@@ -219,6 +219,7 @@ const play = (
             snake.x = getRandomInt(0, randInt) * grid;
             snake.y = getRandomInt(0, randInt) * grid;
           }
+          //change de direction au hasard
           if (tabFood[i].type == "inverted") {
             var choix = Math.floor(Math.random() * 2);
             if (snake.dy == 0) {

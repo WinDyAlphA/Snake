@@ -11,6 +11,7 @@ window.onload = function () {
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+  //function d'animation du loader
   function createMotion(i) {
     context2.clearRect(0, 0, canvas2.width, canvas2.height);
     context2.drawImage(sprite, 4 * 64, 2 * 64, 64, 64, 0, 0, 40, 40);
