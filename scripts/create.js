@@ -10,6 +10,13 @@ function createMur(i, tabMur, randInt, grid) {
     }
     
 }
+function createPlacedMur(i, tabMur, randInt, grid, x, y) {
+  tabMur[i] = {
+      x: x*grid,
+      y: y*grid,
+    };
+  
+}
 function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
   var newfood;
   tabFood[i] = {
@@ -51,5 +58,26 @@ function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
     }
   } while (newfood == false);
 }
-export { createFood };
-export { createMur };
+function createPlacedFood(i, tabFood, tabMur, randInt, grid, typepomme,x,y) {
+  var newfood;
+  tabFood[i] = {
+    x: x*grid,
+    y: y*grid,
+    type: "normal",
+  };
+  if (typepomme) {
+    var rareté = getRandomInt(0, 100);
+    if (rareté % 10 == 1) {
+      tabFood[i].type = "inverted";
+    }
+    if (rareté % 25 == 2) {
+      tabFood[i].type = "invisible";
+    }
+    if (rareté % 100 == 0) {
+      tabFood[i].type = "teleport";
+    }
+  }
+  
+}
+export { createFood,createMur,createPlacedFood,createPlacedMur };
+

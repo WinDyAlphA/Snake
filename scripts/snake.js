@@ -1,3 +1,5 @@
+
+//objet serpent
 var snake = {
   x: 160,
   y: 160,

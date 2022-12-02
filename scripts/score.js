@@ -1,3 +1,5 @@
+
+//ajouter des animations lorsque que l'on depasse le meilleur score
 function setScore() {
     if (document.querySelector("#high").className != "off") {
         let highvalue = document.querySelector("#highNum");

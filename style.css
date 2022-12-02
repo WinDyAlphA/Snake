@@ -183,6 +183,9 @@ canvas {
 	margin-right: 10vw;
 	background: #909090;
 }
+#affichage{
+	margin-bottom: 10px;
+}
 #playContainer{
 	display: flex;
 	justify-content: center;

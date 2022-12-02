@@ -14,12 +14,13 @@ function moveSnakeDown(snake,grid) {
     snake.dy = grid;
     snake.dx = 0;
 }
-
+//regarder si la tete du serpent touche le corps
 function checksnake(snake,cell,i) {
     if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) 
     return true;
     else return false;
 }
+//regarder si la tete du serpent sort du cardre
 function checkbordure(snake,canvas,grid) {
     if (snake.y < 0 ||
         snake.x < 0 ||
