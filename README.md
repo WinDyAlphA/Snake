@@ -44,5 +44,6 @@ On peut aussi choisir un niveau lors du lancement du jeu, les paramètres du niv
         [4,4],
         [4,5],
         [4,6]
-    ]			            //Coordonnées du serpent au début
+    ],			            //Coordonnées du serpent au début
+    "direction": "right"
 ```
