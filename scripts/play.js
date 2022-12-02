@@ -199,7 +199,6 @@ const play = (
           if (tabFood[i].type == "inverted") {
             var choix = Math.floor(Math.random() * 2);
             if (snake.dy == 0) {
-              console.log(choix);
               if (choix == 0) {
                 snake.dx = 0;
                 snake.dy = grid;
@@ -249,7 +248,6 @@ const play = (
             checkbordure(snake, canvas, grid) == true ||
             (checksnake(snake, cell,i) == true && invisible == false)
           ) {
-            console.log("bordure");
             if (score > max) {
               max = score;
             }
@@ -264,10 +262,8 @@ const play = (
         if (border == false) {
           //gestion des bordures, il reaparait de l'autre cote
           if (snake.y < -0) {
-            console.log("negatif");
             snake.y = canvas.height - grid;
           } else if (snake.y >= canvas.height) {
-            console.log("postifi");
             snake.y = 0;
           }
           //si la tete du serpent est sur une autre cellule du serpent, le jeu est perdu
@@ -276,10 +272,6 @@ const play = (
               max = score;
             }
             snakeOver(snake);
-            score = 0;
-            //noter le score
-            document.getElementById("highNum").innerHTML = max;
-            document.getElementById("scoreNum").innerHTML = 0;
           }
         }
       }

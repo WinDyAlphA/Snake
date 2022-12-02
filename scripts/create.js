@@ -32,7 +32,6 @@ function createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme) {
   for (var j = 0; j < tabFood.length; j++) {
     if (tabFood[j].type == "teleport") {
       Teleport = true;
-      console.log(Teleport);
     }
   }
   if (typepomme) {
@@ -44,7 +43,6 @@ function createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme) {
       tabFood[i].type = "invisible";
     }
     if (rareté % 5 == 0 && Teleport == false) {
-      console.log("teleport");
       tabFood[i].type = "teleport";
       Teleport = true;
     }
