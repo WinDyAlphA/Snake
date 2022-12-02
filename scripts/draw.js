@@ -155,6 +155,20 @@ function drawmur(tabMur, context, image, grid) {
     );
   }
 }
-export { sprite };
-export { drawmur };
-export { drawfood };
+function drawfond(context, canvas, grid) {
+  context.fillStyle = "green";
+  var taille = canvas.width / grid;
+  for (var i = 0; i < taille; i++) {
+    for (var j = 0; j < taille; j++) {
+      if (j % 2 == i % 2) {
+        context.fillStyle = "green";
+        context.fillRect(i * grid, j * grid, grid, grid);
+      } else {
+        context.fillStyle = "limegreen";
+        context.fillRect(i * grid, j * grid, grid, grid);
+      }
+    }
+  }
+}
+
+export { sprite, drawfood, drawmur, drawfond };

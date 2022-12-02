@@ -61,7 +61,7 @@ const play = (
       createMur(i, tabMur, randInt, grid);
     }
     for (let i = 0; i < nbFruits; i++) {
-      createFood(i, tabFood, tabMur, randInt, grid, typepomme);
+      createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme);
     }
   } else {
     fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,randInt,grid);
@@ -94,7 +94,7 @@ const play = (
     if (niveau == "") {
       createMur(nbMur, tabMur, randInt, grid);
       for (let i = 0; i < nbFruits; i++) {
-        createFood(i, tabFood, tabMur, randInt, grid, typepomme);
+        createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme);
       }
     } else {
       fetchNiveau(niveau, tabFood, nbFruits, tabMur, snake, pixels,typepomme,randInt,grid);
@@ -154,6 +154,8 @@ const play = (
       snake.cells.pop();
     }
     // Dessine la nourriture
+    
+    drawfond(context, canvas, grid);
     drawfood(tabFood, context, image, grid);
     drawmur(tabMur, context, imagemur, grid);
 
@@ -225,7 +227,7 @@ const play = (
           snake.maxCells++;
           score += 1;
           document.getElementById("scoreNum").innerHTML = score;
-          createFood(i, tabFood, tabMur, randInt, grid, typepomme);
+          createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme);
 
           var myAudio = document.createElement("audio");
           myAudio.src = "./sound/bruitMange.mp3";

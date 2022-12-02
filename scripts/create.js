@@ -21,7 +21,7 @@ function createPlacedMur(i, tabMur, grid, x, y) {
   
 }
 //nourriture placé aleatoirement
-function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
+function createFood(i, tabFood, tabMur,snake, randInt, grid, typepomme) {
   var newfood;
   tabFood[i] = {
     x: getRandomInt(0, randInt) * grid,
@@ -42,6 +42,16 @@ function createFood(i, tabFood, tabMur, randInt, grid, typepomme) {
   }
   do {
     newfood = true;
+    for (let j = 0; j < snake.cells.length; j++) {
+      if (
+        tabFood[i].x == snake.cells[j].x &&
+        tabFood[i].y == snake.cells[j].y
+      ) {
+        newfood = false;
+        tabFood[i].x = getRandomInt(0, randInt) * grid;
+        tabFood[i].y = getRandomInt(0, randInt) * grid;
+      }
+    }
     for (let j = 0; j < tabMur.length; j++) {
       if (tabFood[i].x == tabMur[j].x && tabFood[i].y == tabMur[j].y) {
         newfood = false;
