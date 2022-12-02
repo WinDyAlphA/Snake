@@ -8,6 +8,7 @@ import {
   moveSnakeDown,
   checkbordure,
   checksnake,
+  snakeIa,
 } from "./snakeFunc.js";
 import { setScore } from "./score.js";
 import { snake } from "./snake.js";
@@ -158,27 +159,7 @@ const play = (
 
     // Dessine le serpent
 
-    function isEmpty(x, y) {
-      var result = true;
-      for (var i = 0; i < tabMur.length; i++) {
-        if (x == tabMur[i].x && y == tabMur[i].y) {
-          result = false;
-        }
-      }
-      //pour chaque cellule du serpent, on verifie si il y a une cellule du serpent qui est sur la meme case
-      for (var i = 1; i < snake.cells.length; i++) {
-        if (x == snake.cells[i].x && y == snake.cells[i].y) {
-          result = false;
-        }
-      }
-      if (x >= canvas.width || x < 0) {
-        return false;
-      }
-      if (y >= canvas.height || y < 0) {
-        return false;
-      }
-      return result;
-    }
+    
 
     var indexCopy;
     snake.cells.forEach(function (cell, index) {
@@ -315,6 +296,13 @@ const play = (
       for (var i = 0; i < tab.length; i++) {
         tab[i] = new Array(canvas.height / grid);
       }
+      //fill le tableau avec des 0
+      for (var i = 0; i < tab.length; i++) {
+        for (var j = 0; j < tab[i].length; j++) {
+          tab[i][j] = "EMPTY";
+        }
+      }
+
       //remplir le tableau avec la postion des murs represente par "MUR"
       for (var i = 0; i < tabMur.length; i++) {
         tab[tabMur[i].x / grid][tabMur[i].y / grid] = "MUR";
@@ -329,58 +317,11 @@ const play = (
       }
       return tab;
     }
-    function snakeIa() {
-      var foodX = tabFood[0].x;
-      var foodY = tabFood[0].y;
-      var distance = 100000;
-      for (let i = 0; i < tabFood.length; i++) {
-        var distanceX = Math.abs(snake.x - tabFood[i].x);
-        var distanceY = Math.abs(snake.y - tabFood[i].y);
-
-        var distanceTotale = distanceX + distanceY;
-        if (distanceTotale < distance) {
-          distance = distanceTotale;
-          foodX = tabFood[i].x;
-          foodY = tabFood[i].y;
-        }
-      }
-      //colorer la case de la nourriture
-      /*context.fillStyle = "red";
-      context.fillRect(foodX, foodY, grid - 1, grid - 1);*/
-
-      //trouver le X et Y de la nourriture la plus proche
-
-      var vector = [snake.cells[0].x - foodX, snake.cells[0].y - foodY];
-      var down = isEmpty(snake.cells[0].x, snake.cells[0].y + grid);
-      var up = isEmpty(snake.cells[0].x, snake.cells[0].y - grid);
-      var left = isEmpty(snake.cells[0].x - grid, snake.cells[0].y);
-      var right = isEmpty(snake.cells[0].x + grid, snake.cells[0].y);
-      var oldDirection = snake.direction;
-      // Get the direction to go
-      var direction = "";
-      if (vector[0] < 0 && right && oldDirection != "left") {
-        direction = "right";
-      } else if (vector[0] > 0 && left && oldDirection != "right") {
-        direction = "left";
-      } else if (vector[1] < 0 && down && oldDirection != "up") {
-        direction = "down";
-      } else if (vector[1] > 0 && up && oldDirection != "down") {
-        direction = "up";
-      }
-      if (direction == "" && down) {
-        direction = "down";
-      } else if (direction == "" && up) {
-        direction = "up";
-      } else if (direction == "" && left) {
-        direction = "left";
-      } else if (direction == "" && right) {
-        direction = "right";
-      }
-      //console.log(direction);
-      return direction;
-    }
+    //uncomment pour voir le tableau 2d
+    //console.log(gameToArray());
+    
     if (ia == true) {
-      var result = snakeIa();
+      var result = snakeIa(tabFood, snake, grid,tabMur,canvas);
       if (result == "up") {
         moveSnakeUp(snake, grid);
       }
