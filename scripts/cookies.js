@@ -95,7 +95,7 @@ function setCookies(niveau) {
     affdifficulte.innerHTML = "Expert";
   }
 }
-function emptyCookies() {
+function emptyCookies(niveau) {
   if (document.cookie.length < 3) {
     //on met les valeurs par defaut
     save("true", 22, 49, "false", "true", 9, 10, "true", "");

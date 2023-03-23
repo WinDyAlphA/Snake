@@ -98,7 +98,7 @@ window.onload = function () {
     //console.log(document.cookie);
     //modifier le html en fonction des cookies
 
-    emptyCookies();
+    emptyCookies(niveau);
     setCookies(niveau);
     document.querySelector("#play").addEventListener("click", (e) => {
       save(
